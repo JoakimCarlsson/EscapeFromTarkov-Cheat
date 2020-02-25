@@ -22,6 +22,11 @@ namespace EscapeFromTarkovCheat
         {
             HookObject.AddComponent<CheatBehaviour>();
         }
+
+        public static void Unload()
+        {
+            Object.Destroy(HookObject);
+        }
     }
 
 }
