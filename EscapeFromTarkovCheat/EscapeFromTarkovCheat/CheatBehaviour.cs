@@ -8,6 +8,8 @@ using Comfort.Common;
 using UnityEngine;
 using EFT;
 using EFT.Interactive;
+using Object = UnityEngine.Object;
+using Diz.Skinning;
 
 namespace EscapeFromTarkovCheat
 {
@@ -22,10 +24,11 @@ namespace EscapeFromTarkovCheat
         private bool _showExfiltrationPoints = true;
         private bool _showLootableContainer = true;
         private bool _showPlayers = true;
+        private Player _localPlayer;
 
         public void Awake()
         {
-            Debug.unityLogger.logEnabled = false;
+            //Debug.unityLogger.logEnabled = false;
         }
 
         public void Start()
@@ -63,15 +66,85 @@ namespace EscapeFromTarkovCheat
 
         private void DrawPlayerESP()
         {
-            try
-            {
+
+
+            //try
+            //{
                 if (_players == null)
                     return;
 
                 foreach (var player in _players)
                 {
+                    if (player == _localPlayer)
+                        continue;
+
                     if (player == null)
                         continue;
+
+                    if (!player.IsVisible)
+                        continue;
+
+                #region Bone Vectors
+
+                var playerRightPalmVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).z);
+                var playerLeftPalmVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).z);
+                var playerLeftShoulderVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).z);
+                var playerRightShoulderVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).z);
+                var playerNeckVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).z);
+                var playerCenterVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).z);
+                var playerRightFootVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).z);
+                var playerHeadVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).x,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).y,
+                    Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).z);
+                var playerLeftFootVector = new Vector3(
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).x,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).y,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).z
+                    );
+                var playerLeftElbow = new Vector3(
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).x,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).y,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).z
+                    );
+                var playerRightElbow = new Vector3(
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).x,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).y,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).z
+                    );
+                var playerLeftKnee = new Vector3(
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).x,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).y,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).z
+                    );
+                var playerRightKnee = new Vector3(
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).x,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).y,
+                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).z
+                    );
+
+                #endregion Bone Vectors
 
                     Vector3 playerPos = player.Transform.position;
                     float distanceToObject = Vector3.Distance(Camera.main.transform.position, player.Transform.position);
@@ -79,7 +152,6 @@ namespace EscapeFromTarkovCheat
 
                     if (distanceToObject <= 300f && boundingVector.z > 0.01)
                     {
-                        Vector3 playerHeadVector = Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position);
                         float boxVectorX = boundingVector.x;
                         float boxVectorY = playerHeadVector.y + 10f;
                         float boxHeight = Math.Abs(playerHeadVector.y - boundingVector.y) + 10f;
@@ -88,17 +160,53 @@ namespace EscapeFromTarkovCheat
                         Utils.DrawBox(boxVectorX - boxWidth / 2f, Screen.height - boxVectorY, boxWidth, boxHeight, playerColor);
                         var playerName = player.AIData.IsAI ? "AI" : player.name;
                         string playerText = player.HealthController.IsAlive ? playerName : playerName + " (Dead)";
-                        string playerTextDraw = $"{playerText} [{(int) distanceToObject}]";
+                        string playerTextDraw = $"{playerText} [{(int) distanceToObject}m]";
                         var playerTextVector = GUI.skin.GetStyle(playerText).CalcSize(new GUIContent(playerText));
                         GUI.Label(new Rect(boundingVector.x - playerTextVector.x / 2f, Screen.height - boxVectorY - 20f, 300f, 50f),
                             playerTextDraw);
-                    }
+
+                    #region Draw Bones
+
+                    Utils.DrawLine(new Vector2(playerNeckVector.x, Screen.height - playerNeckVector.y), new Vector2(playerCenterVector.x, Screen.height - playerCenterVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerLeftShoulderVector.x, Screen.height - playerLeftShoulderVector.y), new Vector2(playerLeftElbow.x, Screen.height - playerLeftElbow.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerRightShoulderVector.x, Screen.height - playerRightShoulderVector.y), new Vector2(playerRightElbow.x, Screen.height - playerRightElbow.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerLeftElbow.x, Screen.height - playerLeftElbow.y), new Vector2(playerLeftPalmVector.x, Screen.height - playerLeftPalmVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerRightElbow.x, Screen.height - playerRightElbow.y), new Vector2(playerRightPalmVector.x, Screen.height - playerRightPalmVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerRightShoulderVector.x, Screen.height - playerRightShoulderVector.y), new Vector2(playerLeftShoulderVector.x, Screen.height - playerLeftShoulderVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerLeftKnee.x, Screen.height - playerLeftKnee.y), new Vector2(playerCenterVector.x, Screen.height - playerCenterVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerRightKnee.x, Screen.height - playerRightKnee.y), new Vector2(playerCenterVector.x, Screen.height - playerCenterVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerLeftKnee.x, Screen.height - playerLeftKnee.y), new Vector2(playerLeftFootVector.x, Screen.height - playerLeftFootVector.y), playerColor);
+                    Utils.DrawLine(new Vector2(playerRightKnee.x, Screen.height - playerRightKnee.y), new Vector2(playerRightFootVector.x, Screen.height - playerRightFootVector.y), playerColor);
+
+                    #endregion Draw Bones
                 }
+
+
             }
-            catch (Exception e)
+            //}
+            //catch (Exception e)
+            //{
+
+            //}
+        }
+
+        public Vector3 GetBonePosByID(Player player, int id)
+        {
+            Vector3 result;
+            try
             {
-                
+                result = SkeletonBonePos(player.PlayerBones.AnimatedTransform.Original.gameObject.GetComponent<PlayerBody>().SkeletonRootJoint, id);
             }
+            catch (Exception)
+            {
+                result = Vector3.zero;
+            }
+            return result;
+        }
+
+        public static Vector3 SkeletonBonePos(Skeleton skeleton, int id)
+        {
+            return skeleton.Bones.ElementAt(id).Value.position;
         }
 
         private Color GetPlayerColor(EPlayerSide side)
@@ -128,8 +236,7 @@ namespace EscapeFromTarkovCheat
                 var boundingVector = Camera.main.WorldToScreenPoint(exfiltrationPoint.transform.position);
                 if (boundingVector.z > 0.01)
                 {
-                    float distanceToObject =
-                        Vector3.Distance(Camera.main.transform.position, exfiltrationPoint.transform.position);
+                    float distanceToObject = Vector3.Distance(Camera.main.transform.position, exfiltrationPoint.transform.position);
                     GUI.color = Color.green;
                     string boxText = $"{ExtractionNameToSimpleName(exfiltrationPoint.name)} - {(int)distanceToObject}m";
                     GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), boxText);
@@ -151,11 +258,29 @@ namespace EscapeFromTarkovCheat
                 var boundingVector = Camera.main.WorldToScreenPoint(lootableContainer.transform.position);
                 if (boundingVector.z > 0.01 && distance <= 50)
                 {
-                    GUI.color = Color.cyan;
+                    GUI.color = Color.magenta;
                     string boxText = $"{lootableContainer.name} - [{(int)distance}]m";
                     GUI.Label(
                         new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f),
                         boxText);
+                }
+            }
+        }
+
+        private void GetLocalPlayer()
+        {
+            foreach (Player player in FindObjectsOfType<Player>())
+            {
+                if (player == null) 
+                    continue;
+
+                if (EPointOfView.FirstPerson == player.PointOfView && player != null)
+                {
+                    _localPlayer = player;
+                }
+                else
+                {
+                    _localPlayer = null;
                 }
             }
         }
@@ -171,7 +296,6 @@ namespace EscapeFromTarkovCheat
                     continue;
 
                 float distance = Vector3.Distance(Camera.main.transform.position, lootItem.transform.position);
-
                 Vector3 boundingVector = Camera.main.WorldToScreenPoint(lootItem.transform.position);
 
                 if (boundingVector.z > 0.01 && distance <= 50)
@@ -201,8 +325,8 @@ namespace EscapeFromTarkovCheat
                         lootItem.name.Contains("glock") ||
                         lootItem.name.Contains("SA-58"))
                     {
-                        string text = $"{lootItem.name} - [{(int)distance}]m";
-                        GUI.color = Color.magenta;
+                        string text = $"{lootItem.Name} - [{(int)distance}]m";
+                        GUI.color = Color.blue;
                         GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), text);
                     }
                 }
@@ -221,6 +345,7 @@ namespace EscapeFromTarkovCheat
                 _lootableContainers = FindObjectsOfType<LootableContainer>();
                 _lootItems = FindObjectsOfType<LootItem>();
                 _players = FindObjectsOfType<Player>();
+                GetLocalPlayer();
             }
             //}
             //catch (Exception e)
