@@ -66,104 +66,116 @@ namespace EscapeFromTarkovCheat
 
         private void DrawPlayerESP()
         {
-
-
             //try
             //{
-                if (_players == null)
-                    return;
+            if (_players == null)
+                return;
 
-                foreach (var player in _players)
+            foreach (var player in _players)
+            {
+                if (player == null)
+                    continue;
+
+                if (!player.IsVisible)
+                    continue;
+
+                if (EPointOfView.FirstPerson == player.PointOfView)
+                    continue;
+
+                Vector3 playerPos = player.Transform.position;
+                float distanceToObject = Vector3.Distance(Camera.main.transform.position, player.Transform.position);
+                Vector3 boundingVector = Camera.main.WorldToScreenPoint(playerPos);
+
+                if (distanceToObject <= 300f && boundingVector.z > 0.01)
                 {
-                    if (player == _localPlayer)
-                        continue;
+                    #region Bone Vectors
 
-                    if (player == null)
-                        continue;
+                    var playerRightPalmVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).z);
+                    var playerLeftPalmVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).z);
+                    var playerLeftShoulderVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).z);
+                    var playerRightShoulderVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).z);
+                    var playerNeckVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).z);
+                    var playerCenterVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).z);
+                    var playerRightFootVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).z);
+                    var playerHeadVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).x,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).y,
+                        Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).z);
+                    var playerLeftFootVector = new Vector3(
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).x,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).y,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).z
+                        );
+                    var playerLeftElbow = new Vector3(
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).x,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).y,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).z
+                        );
+                    var playerRightElbow = new Vector3(
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).x,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).y,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).z
+                        );
+                    var playerLeftKnee = new Vector3(
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).x,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).y,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).z
+                        );
+                    var playerRightKnee = new Vector3(
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).x,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).y,
+                        Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).z
+                        );
 
-                    if (!player.IsVisible)
-                        continue;
+                    #endregion Bone Vectors
 
-                #region Bone Vectors
+                    float boxVectorX = boundingVector.x;
+                    float boxVectorY = playerHeadVector.y + 10f;
+                    float boxHeight = Math.Abs(playerHeadVector.y - boundingVector.y) + 10f;
+                    float boxWidth = boxHeight * 0.65f;
+                    Color playerColor;
 
-                var playerRightPalmVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightPalm.position).z);
-                var playerLeftPalmVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).z);
-                var playerLeftShoulderVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).z);
-                var playerRightShoulderVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).z);
-                var playerNeckVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Neck.position).z);
-                var playerCenterVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Pelvis.position).z);
-                var playerRightFootVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).z);
-                var playerHeadVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).x,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).y,
-                    Camera.main.WorldToScreenPoint(player.PlayerBones.Head.position).z);
-                var playerLeftFootVector = new Vector3(
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).x,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).y,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 18)).z
-                    );
-                var playerLeftElbow = new Vector3(
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).x,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).y,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 91)).z
-                    );
-                var playerRightElbow = new Vector3(
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).x,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).y,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 112)).z
-                    );
-                var playerLeftKnee = new Vector3(
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).x,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).y,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 17)).z
-                    );
-                var playerRightKnee = new Vector3(
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).x,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).y,
-                    Camera.main.WorldToScreenPoint(GetBonePosByID(player, 22)).z
-                    );
+                    if (player.HealthController.IsAlive)
+                        playerColor = Color.yellow;
+                    else
+                        playerColor = Color.white;
 
-                #endregion Bone Vectors
+                    Utils.DrawBox(boxVectorX - boxWidth / 2f, Screen.height - boxVectorY, boxWidth, boxHeight, playerColor);
+                    var playerName = player.AIData.IsAI ? "AI" : player.name;
 
-                    Vector3 playerPos = player.Transform.position;
-                    float distanceToObject = Vector3.Distance(Camera.main.transform.position, player.Transform.position);
-                    Vector3 boundingVector = Camera.main.WorldToScreenPoint(playerPos);
+                    string playerText;
 
-                    if (distanceToObject <= 300f && boundingVector.z > 0.01)
-                    {
-                        float boxVectorX = boundingVector.x;
-                        float boxVectorY = playerHeadVector.y + 10f;
-                        float boxHeight = Math.Abs(playerHeadVector.y - boundingVector.y) + 10f;
-                        float boxWidth = boxHeight * 0.65f;
-                        var playerColor = player.HealthController.IsAlive ? GetPlayerColor(player.Side) : Color.gray;
-                        Utils.DrawBox(boxVectorX - boxWidth / 2f, Screen.height - boxVectorY, boxWidth, boxHeight, playerColor);
-                        var playerName = player.AIData.IsAI ? "AI" : player.name;
-                        string playerText = player.HealthController.IsAlive ? playerName : playerName + " (Dead)";
-                        string playerTextDraw = $"{playerText} [{(int) distanceToObject}m]";
-                        var playerTextVector = GUI.skin.GetStyle(playerText).CalcSize(new GUIContent(playerText));
-                        GUI.Label(new Rect(boundingVector.x - playerTextVector.x / 2f, Screen.height - boxVectorY - 20f, 300f, 50f),
-                            playerTextDraw);
+                    if (player.HealthController.IsAlive)
+                        playerText = playerName;
+                    else
+                        playerText = playerName + " (Dead)";
+
+                    string playerTextDraw = $"{playerText} [{(int)distanceToObject}m]";
+                    var playerTextVector = GUI.skin.GetStyle(playerText).CalcSize(new GUIContent(playerText));
+                    GUI.Label(new Rect(boundingVector.x - playerTextVector.x / 2f, Screen.height - boxVectorY - 20f, 300f, 50f), playerTextDraw);
+
+
 
                     #region Draw Bones
 
@@ -180,8 +192,6 @@ namespace EscapeFromTarkovCheat
 
                     #endregion Draw Bones
                 }
-
-
             }
             //}
             //catch (Exception e)
@@ -260,27 +270,7 @@ namespace EscapeFromTarkovCheat
                 {
                     GUI.color = Color.magenta;
                     string boxText = $"{lootableContainer.name} - [{(int)distance}]m";
-                    GUI.Label(
-                        new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f),
-                        boxText);
-                }
-            }
-        }
-
-        private void GetLocalPlayer()
-        {
-            foreach (Player player in FindObjectsOfType<Player>())
-            {
-                if (player == null) 
-                    continue;
-
-                if (EPointOfView.FirstPerson == player.PointOfView && player != null)
-                {
-                    _localPlayer = player;
-                }
-                else
-                {
-                    _localPlayer = null;
+                    GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), boxText);
                 }
             }
         }
@@ -326,7 +316,8 @@ namespace EscapeFromTarkovCheat
                         lootItem.name.Contains("SA-58"))
                     {
                         string text = $"{lootItem.Name} - [{(int)distance}]m";
-                        GUI.color = Color.blue;
+
+                        GUI.color = Color.yellow;
                         GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), text);
                     }
                 }
@@ -345,7 +336,6 @@ namespace EscapeFromTarkovCheat
                 _lootableContainers = FindObjectsOfType<LootableContainer>();
                 _lootItems = FindObjectsOfType<LootItem>();
                 _players = FindObjectsOfType<Player>();
-                GetLocalPlayer();
             }
             //}
             //catch (Exception e)
