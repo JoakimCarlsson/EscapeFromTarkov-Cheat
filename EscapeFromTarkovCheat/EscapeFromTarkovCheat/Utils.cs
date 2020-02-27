@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using Diz.Skinning;
+using EFT;
+using UnityEngine;
 
 namespace EscapeFromTarkovCheat
 {
@@ -6,6 +10,26 @@ namespace EscapeFromTarkovCheat
     {
         private static Texture2D _coloredLineTexture;
         private static Color _coloredLineColor;
+
+
+        public static Vector3 GetBonePosByID(Player player, int id)
+        {
+            Vector3 result;
+            try
+            {
+                result = SkeletonBonePos(player.PlayerBones.AnimatedTransform.Original.gameObject.GetComponent<PlayerBody>().SkeletonRootJoint, id);
+            }
+            catch (Exception)
+            {
+                result = Vector3.zero;
+            }
+            return result;
+        }
+
+        public static Vector3 SkeletonBonePos(Skeleton skeleton, int id)
+        {
+            return skeleton.Bones.ElementAt(id).Value.position;
+        }
 
         public static void DrawLine(Vector2 lineStart, Vector2 lineEnd, Color color)
         {
