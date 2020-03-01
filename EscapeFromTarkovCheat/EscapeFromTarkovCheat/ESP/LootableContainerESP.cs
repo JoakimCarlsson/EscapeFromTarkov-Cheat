@@ -23,7 +23,7 @@ namespace EscapeFromTarkovCheat.ESP
 
                 float distance = Vector3.Distance(Camera.main.transform.position, lootableContainer.transform.position);
                 var boundingVector = Camera.main.WorldToScreenPoint(lootableContainer.transform.position);
-                if (boundingVector.z > 0.01 && distance <= 50)
+                if (boundingVector.z > 0.01 && distance <= Menu.DrawLootableContainersDistance)
                 {
                     GUI.color = Color.magenta;
                     string boxText = $"{lootableContainer.name} - [{(int)distance}]m";
