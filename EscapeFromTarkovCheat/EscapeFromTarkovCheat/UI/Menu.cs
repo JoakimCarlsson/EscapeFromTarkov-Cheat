@@ -9,16 +9,19 @@ namespace Menu.UI
         private Rect _mainWindow;
         private Rect _playerVisualWindow;
         private Rect _miscVisualWindow;
+        private Rect _aimbotVisualWindow;
 
         private bool _visible = true;
         private bool _playerEspVisualVisible;
         private bool _miscVisualVisible;
+        private bool _aimbotVisualVisible;
 
         private void Start()
         {
             _mainWindow = new Rect(20f, 60f, 250f, 150f);
             _playerVisualWindow = new Rect(20f, 220f, 250f, 150f);
             _miscVisualWindow = new Rect(20f, 260f, 250f, 150f);
+            _aimbotVisualWindow = new Rect(20f, 260f, 250f, 150f);
         }
 
         private void Update()
@@ -45,6 +48,8 @@ namespace Menu.UI
                 _playerVisualWindow = GUILayout.Window(1, _playerVisualWindow, RenderUi, "Player Visual");
             if (_miscVisualVisible)
                 _miscVisualWindow = GUILayout.Window(2, _playerVisualWindow, RenderUi, "Misc Visual");
+            if (_aimbotVisualVisible)
+                _aimbotVisualWindow = GUILayout.Window(3, _playerVisualWindow, RenderUi, "Aimbot");
         }
 
         private void RenderUi(int id)
@@ -59,11 +64,13 @@ namespace Menu.UI
                         _playerEspVisualVisible = !_playerEspVisualVisible;
                     if (GUILayout.Button("Misc Visual"))
                         _miscVisualVisible = !_miscVisualVisible;
+                    if (GUILayout.Button("Aimbot"))
+                        _aimbotVisualVisible = !_aimbotVisualVisible;
                     break;
 
                 case 1:
-                    GUILayout.Label("Placeholder");
-                    GUILayout.Space(5f);
+                    //GUILayout.Label("Placeholder");
+                    //GUILayout.Space(5f);
                     Settings.DrawPlayers = GUILayout.Toggle(Settings.DrawPlayers, "Draw Players");
                     Settings.DrawPlayerBox = GUILayout.Toggle(Settings.DrawPlayerBox, "Draw Player Box");
                     Settings.DrawPlayerName = GUILayout.Toggle(Settings.DrawPlayerName, "Draw Player Name");
@@ -74,8 +81,8 @@ namespace Menu.UI
                     break;
 
                 case 2:
-                    GUILayout.Label("Misc Visual");
-                    GUILayout.Space(5f);
+                    //GUILayout.Label("Misc Visual");
+                    //GUILayout.Space(5f);
 
                     Settings.DrawLootItems = GUILayout.Toggle(Settings.DrawLootItems, "Draw Loot Items");
                     GUILayout.Label($"Loot Item Distance {(int)Settings.DrawLootItemsDistance} m");
@@ -86,6 +93,17 @@ namespace Menu.UI
                     Settings.DrawLootableContainersDistance = GUILayout.HorizontalSlider(Settings.DrawLootableContainersDistance, 0f, 2000f);
 
                     Settings.DrawExfiltrationPoints = GUILayout.Toggle(Settings.DrawExfiltrationPoints, "Draw Exits");
+                    break;
+
+                case 3:
+                    Settings.Aimbot = GUILayout.Toggle(Settings.Aimbot, "Aimbot");
+                    Settings.AimbotDrawFov = GUILayout.Toggle(Settings.AimbotDrawFov, "Aimbot Draw FOV");
+                    GUILayout.Label($"Aimbot FOV {(int)Settings.AimbotFOV} m");
+                    Settings.AimbotFOV = GUILayout.HorizontalSlider(Settings.AimbotFOV, 0f, 360);
+
+                    Settings.AimbotSmooth = GUILayout.Toggle(Settings.AimbotSmooth, "Aimbot Smooth");
+                    GUILayout.Label($"Aimbot Smooth {(int)Settings.AimbotSmoothValue} m");
+                    Settings.AimbotSmoothValue = GUILayout.HorizontalSlider(Settings.AimbotSmoothValue, 0f, 360);
                     break;
             }
             GUI.DragWindow();
