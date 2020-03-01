@@ -1,23 +1,35 @@
-﻿using EFT.Interactive;
+﻿using System.Collections.Generic;
+using Comfort.Common;
+using EFT;
+using EFT.Interactive;
+using EscapeFromTarkovCheat.Utils;
 using UnityEngine;
 
-namespace EscapeFromTarkovCheat.ESP
+namespace EscapeFromTarkovCheat.Feauters.ESP
 {
-    public class ItemESP
+    public class ItemESP : MonoBehaviour
     {
-        private readonly CheatBehaviour _cheatBehaviour;
+        private IEnumerable<LootItem> _lootItems;
 
-        public ItemESP(CheatBehaviour cheatBehaviour)
+        private void Start()
         {
-            _cheatBehaviour = cheatBehaviour;
+            InvokeRepeating(nameof(GetExfilrationPoints), 10f, 10f);
+        }
+
+        private void OnGUI()
+        {
+            if (Settings.DrawLootItems)
+            {
+                DrawItemESP();
+            }
         }
 
         public void DrawItemESP()
         {
-            if (_cheatBehaviour.LootItems == null)
+            if (_lootItems == null)
                 return;
 
-            foreach (LootItem lootItem in _cheatBehaviour.LootItems)
+            foreach (LootItem lootItem in _lootItems)
             {
                 if (lootItem == null)
                     continue;
@@ -25,7 +37,7 @@ namespace EscapeFromTarkovCheat.ESP
                 float distance = Vector3.Distance(Camera.main.transform.position, lootItem.transform.position);
                 Vector3 boundingVector = Camera.main.WorldToScreenPoint(lootItem.transform.position);
 
-                if (boundingVector.z > 0.01 && distance <= Menu.DrawLootItemsDistance)
+                if (boundingVector.z > 0.01 && distance <= Settings.DrawLootItemsDistance)
                 {
                     if (lootItem.name.Contains("key") ||
                         lootItem.name.Contains("usb") ||
@@ -59,9 +71,17 @@ namespace EscapeFromTarkovCheat.ESP
                     }
                 }
             }
+        }
 
-            
+        public void GetExfilrationPoints()
+        {
+            GameWorld world = Singleton<GameWorld>.Instance;
 
+            if (world != null)
+            {
+                if (Settings.DrawLootItems)
+                    _lootItems = FindObjectsOfType<LootItem>();
+            }
         }
     }
 }

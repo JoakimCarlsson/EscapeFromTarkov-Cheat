@@ -86,17 +86,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheatBehaviour.cs" />
     <Compile Include="EFTTarget.cs" />
-    <Compile Include="ESP\ExfiltrationPointsESP.cs" />
-    <Compile Include="ESP\ItemESP.cs" />
+    <Compile Include="Feauters\Aimbot\Aimbot.cs" />
+    <Compile Include="Feauters\ESP\ExfiltrationPointsESP.cs" />
+    <Compile Include="Feauters\ESP\ItemESP.cs" />
     <Compile Include="Loader.cs" />
-    <Compile Include="ESP\LootableContainerESP.cs" />
-    <Compile Include="ESP\PlayerESP.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="Feauters\ESP\LootableContainerESP.cs" />
+    <Compile Include="Feauters\ESP\PlayerESP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="UI\Menu.cs" />
+    <Compile Include="Utils\Helpers.cs" />
+    <Compile Include="Utils\Render.cs" />
+    <Compile Include="Utils\Settings.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Feauters\Misc\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

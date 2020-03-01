@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EscapeFromTarkovCheat
+namespace EscapeFromTarkovCheat.Utils
 {
-    internal static class Menu
+    class Settings
     {
-        #region Fields
-
         internal static bool DrawLootItems = true;
         internal static bool DrawLootableContainers = false;
+
         internal static bool DrawPlayers = true;
         internal static bool DrawExfiltrationPoints = true;
 
@@ -20,9 +19,12 @@ namespace EscapeFromTarkovCheat
         internal static bool DrawPlayerHealth = true;
         internal static bool DrawPlayerBox = true;
 
-        internal static float DrawLootItemsDistance = 50f;
-        internal static float DrawLootableContainersDistance = 50f;
-        internal static float DrawPlayersDistance = 300f;
-        #endregion
+        internal static float DrawLootItemsDistance = 2000f;
+        internal static float DrawLootableContainersDistance = 2000f;
+        internal static float DrawPlayersDistance = 2000f;
+
+        internal static bool NoRecoil = false;
+        internal static bool NoSway = false;
+        internal static bool DoorUnlocker = false;
     }
 }

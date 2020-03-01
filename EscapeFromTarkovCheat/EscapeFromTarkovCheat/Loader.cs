@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using EFT.InventoryLogic;
+using EscapeFromTarkovCheat.Feauters.ESP;
+using UnityEngine;
 
 namespace EscapeFromTarkovCheat
 {
@@ -20,7 +22,11 @@ namespace EscapeFromTarkovCheat
 
         public static void Load()
         {
-            HookObject.AddComponent<CheatBehaviour>();
+            HookObject.AddComponent<Menu.UI.Menu>();
+            HookObject.AddComponent<PlayerESP>();
+            HookObject.AddComponent<ItemESP>();
+            HookObject.AddComponent<LootableContainerESP>();
+            HookObject.AddComponent<ExfiltrationPointsESP>();
         }
 
         public static void Unload()

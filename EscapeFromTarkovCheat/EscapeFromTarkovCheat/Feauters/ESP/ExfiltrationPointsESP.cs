@@ -1,22 +1,35 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Comfort.Common;
+using EFT;
+using EFT.Interactive;
+using EscapeFromTarkovCheat.Utils;
+using UnityEngine;
 
-namespace EscapeFromTarkovCheat.ESP
+namespace EscapeFromTarkovCheat.Feauters.ESP
 {
-    public class ExfiltrationPointsESP
+    public class ExfiltrationPointsESP : MonoBehaviour
     {
-        private readonly CheatBehaviour _cheatBehaviour;
+        private IEnumerable<ExfiltrationPoint> _exfiltrationPoints;
 
-        public ExfiltrationPointsESP(CheatBehaviour cheatBehaviour)
+        private void Start()
         {
-            _cheatBehaviour = cheatBehaviour;
+            InvokeRepeating(nameof(GetExfilrationPoints), 10f, 10f);
+        }
+
+        private void OnGUI()
+        {
+            if (Settings.DrawExfiltrationPoints)
+            {
+                DrawExfiltrationPoints();
+            }
         }
 
         public void DrawExfiltrationPoints()
         {
-            if (_cheatBehaviour.ExfiltrationPoints == null)
+            if (_exfiltrationPoints == null)
                 return;
 
-            foreach (var exfiltrationPoint in _cheatBehaviour.ExfiltrationPoints)
+            foreach (var exfiltrationPoint in _exfiltrationPoints)
             {
                 if (exfiltrationPoint == null)
                     continue;
@@ -133,6 +146,17 @@ namespace EscapeFromTarkovCheat.ESP
             if (extractionName.Contains("SE_Exfil"))
                 return "South East Extract";
             return extractionName;
+        }
+
+        private void GetExfilrationPoints()
+        {
+            GameWorld world = Singleton<GameWorld>.Instance;
+
+            if (world != null)
+            {
+                if (Settings.DrawExfiltrationPoints)
+                    _exfiltrationPoints = FindObjectsOfType<ExfiltrationPoint>();
+            }
         }
     }
 
