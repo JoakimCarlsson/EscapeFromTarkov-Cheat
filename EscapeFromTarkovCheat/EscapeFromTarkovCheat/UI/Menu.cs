@@ -1,4 +1,5 @@
-﻿using EscapeFromTarkovCheat;
+﻿using System.Runtime.CompilerServices;
+using EscapeFromTarkovCheat;
 using EscapeFromTarkovCheat.Utils;
 using UnityEngine;
 
@@ -10,11 +11,13 @@ namespace Menu.UI
         private Rect _playerVisualWindow;
         private Rect _miscVisualWindow;
         private Rect _aimbotVisualWindow;
+        private Rect _miscFeautersVisualWindow;
 
         private bool _visible = true;
         private bool _playerEspVisualVisible;
         private bool _miscVisualVisible;
         private bool _aimbotVisualVisible;
+        private bool _miscFeautersVisible;
 
         private void Start()
         {
@@ -22,6 +25,7 @@ namespace Menu.UI
             _playerVisualWindow = new Rect(20f, 220f, 250f, 150f);
             _miscVisualWindow = new Rect(20f, 260f, 250f, 150f);
             _aimbotVisualWindow = new Rect(20f, 260f, 250f, 150f);
+            _miscFeautersVisualWindow = new Rect(20f, 260f, 250f, 150f);
         }
 
         private void Update()
@@ -36,8 +40,7 @@ namespace Menu.UI
         private void OnGUI()
         {
             GUI.Label(new Rect(20, 20, 200, 60), "Carlsson");
-            GUI.Label(new Rect(20, 40, 200, 60), "Escape From Tarkov");
-            GUI.Label(new Rect(20, 60, 200, 60), "Verison 0.2");
+            GUI.Label(new Rect(20, 40, 200, 60), "Escape From Tarkov Verison 0.5");
 
             if (!_visible)
                 return;
@@ -47,9 +50,11 @@ namespace Menu.UI
             if (_playerEspVisualVisible)
                 _playerVisualWindow = GUILayout.Window(1, _playerVisualWindow, RenderUi, "Player Visual");
             if (_miscVisualVisible)
-                _miscVisualWindow = GUILayout.Window(2, _playerVisualWindow, RenderUi, "Misc Visual");
+                _miscVisualWindow = GUILayout.Window(2, _miscVisualWindow, RenderUi, "Misc Visual");
             if (_aimbotVisualVisible)
-                _aimbotVisualWindow = GUILayout.Window(3, _playerVisualWindow, RenderUi, "Aimbot");
+                _aimbotVisualWindow = GUILayout.Window(3, _aimbotVisualWindow, RenderUi, "Aimbot");
+            if (_miscFeautersVisible)
+                _miscFeautersVisualWindow = GUILayout.Window(4, _miscFeautersVisualWindow, RenderUi, "Misc");
         }
 
         private void RenderUi(int id)
@@ -66,11 +71,11 @@ namespace Menu.UI
                         _miscVisualVisible = !_miscVisualVisible;
                     if (GUILayout.Button("Aimbot"))
                         _aimbotVisualVisible = !_aimbotVisualVisible;
+                    if (GUILayout.Button("Misc"))
+                        _miscFeautersVisible = !_miscFeautersVisible;
                     break;
 
                 case 1:
-                    //GUILayout.Label("Placeholder");
-                    //GUILayout.Space(5f);
                     Settings.DrawPlayers = GUILayout.Toggle(Settings.DrawPlayers, "Draw Players");
                     Settings.DrawPlayerBox = GUILayout.Toggle(Settings.DrawPlayerBox, "Draw Player Box");
                     Settings.DrawPlayerName = GUILayout.Toggle(Settings.DrawPlayerName, "Draw Player Name");
@@ -81,9 +86,6 @@ namespace Menu.UI
                     break;
 
                 case 2:
-                    //GUILayout.Label("Misc Visual");
-                    //GUILayout.Space(5f);
-
                     Settings.DrawLootItems = GUILayout.Toggle(Settings.DrawLootItems, "Draw Loot Items");
                     GUILayout.Label($"Loot Item Distance {(int)Settings.DrawLootItemsDistance} m");
                     Settings.DrawLootItemsDistance = GUILayout.HorizontalSlider(Settings.DrawLootItemsDistance, 0f, 2000f);
@@ -104,6 +106,12 @@ namespace Menu.UI
                     Settings.AimbotSmooth = GUILayout.Toggle(Settings.AimbotSmooth, "Aimbot Smooth");
                     GUILayout.Label($"Aimbot Smooth {(int)Settings.AimbotSmoothValue} m");
                     Settings.AimbotSmoothValue = GUILayout.HorizontalSlider(Settings.AimbotSmoothValue, 0f, 360);
+                    break;
+
+                case 4:
+                    Settings.NoRecoil = GUILayout.Toggle(Settings.NoRecoil, "No Recoil");
+                    Settings.NoSway = GUILayout.Toggle(Settings.NoRecoil, "No Sway");
+                    Settings.DoorUnlocker = GUILayout.Toggle(Settings.NoRecoil, "Door Unlocker");
                     break;
             }
             GUI.DragWindow();

@@ -90,6 +90,7 @@
     <Compile Include="Feauters\Aimbot\Aimbot.cs" />
     <Compile Include="Feauters\ESP\ExfiltrationPointsESP.cs" />
     <Compile Include="Feauters\ESP\ItemESP.cs" />
+    <Compile Include="Feauters\Misc\Misc.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Feauters\ESP\LootableContainerESP.cs" />
     <Compile Include="Feauters\ESP\PlayerESP.cs" />
@@ -99,8 +100,6 @@
     <Compile Include="Utils\Render.cs" />
     <Compile Include="Utils\Settings.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Feauters\Misc\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

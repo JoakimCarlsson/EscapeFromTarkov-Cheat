@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EFT.Visual;
+using UnityEngine;
 
 namespace EscapeFromTarkovCheat.Utils
 {
@@ -25,6 +26,7 @@ namespace EscapeFromTarkovCheat.Utils
         internal static float DrawPlayersDistance = 2000f;
 
         internal static bool Aimbot = false;
+        internal static KeyCode AimbotKey = KeyCode.LeftControl;
         internal static bool AimbotDrawFov = false;
         internal static bool AimbotSmooth = true;
         internal static float AimbotSmoothValue = 1f;
