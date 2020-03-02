@@ -38,7 +38,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                 if (!player.IsVisible)
                     continue;
 
-                if (EPointOfView.FirstPerson == player.PointOfView)
+                if (player.PointOfView == EPointOfView.FirstPerson)
                     continue;
 
                 Vector3 playerPosition = player.Transform.position;

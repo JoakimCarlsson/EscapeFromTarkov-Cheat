@@ -10,7 +10,7 @@ namespace EscapeFromTarkovCheat.Utils
 {
     class Settings
     {
-        internal static bool DrawLootItems = true;
+        internal static bool DrawLootItems = false;
         internal static bool DrawLootableContainers = false;
 
         internal static bool DrawExfiltrationPoints = true;
@@ -21,7 +21,7 @@ namespace EscapeFromTarkovCheat.Utils
         internal static bool DrawPlayerHealth = true;
         internal static bool DrawPlayerBox = true;
 
-        internal static float DrawLootItemsDistance = 2000f;
+        internal static float DrawLootItemsDistance = 300f;
         internal static float DrawLootableContainersDistance = 2000f;
         internal static float DrawPlayersDistance = 2000f;
 

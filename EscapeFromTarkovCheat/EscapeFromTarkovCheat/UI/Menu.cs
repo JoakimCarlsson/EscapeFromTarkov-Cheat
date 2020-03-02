@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using EscapeFromTarkovCheat;
 using EscapeFromTarkovCheat.Utils;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace Menu.UI
 {
     public class Menu : MonoBehaviour
     {
+
+
         private Rect _mainWindow;
         private Rect _playerVisualWindow;
         private Rect _miscVisualWindow;
@@ -18,6 +21,7 @@ namespace Menu.UI
         private bool _miscVisualVisible;
         private bool _aimbotVisualVisible;
         private bool _miscFeautersVisible;
+
 
         private void Start()
         {
@@ -40,7 +44,7 @@ namespace Menu.UI
         private void OnGUI()
         {
             GUI.Label(new Rect(20, 20, 200, 60), "Carlsson");
-            GUI.Label(new Rect(20, 40, 200, 60), "Escape From Tarkov Verison 0.5");
+            GUI.Label(new Rect(20, 40, 200, 60), "Escape From Tarkov Verison 0.3");
 
             if (!_visible)
                 return;

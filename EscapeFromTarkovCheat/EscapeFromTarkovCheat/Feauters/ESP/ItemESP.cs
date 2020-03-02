@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
@@ -10,10 +11,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
     public class ItemESP : MonoBehaviour
     {
         private IEnumerable<LootItem> _lootItems;
-
         private void Start()
         {
-            InvokeRepeating(nameof(GetExfilrationPoints), 10f, 10f);
+            InvokeRepeating(nameof(GetItems), 10f, 10f);
         }
 
         private void OnGUI()
@@ -73,7 +73,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             }
         }
 
-        public void GetExfilrationPoints()
+        public void GetItems()
         {
             GameWorld world = Singleton<GameWorld>.Instance;
 
