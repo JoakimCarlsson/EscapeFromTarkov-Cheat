@@ -96,6 +96,7 @@
     <Compile Include="Feauters\ESP\PlayerESP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Menu.cs" />
+    <Compile Include="Utils\AllocConsoleHandler.cs" />
     <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Utils\Render.cs" />
     <Compile Include="Utils\Settings.cs" />
