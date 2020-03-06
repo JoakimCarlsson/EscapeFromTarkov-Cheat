@@ -10,6 +10,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
     public class ExfiltrationPointsESP : MonoBehaviour
     {
         private IEnumerable<ExfiltrationPoint> _exfiltrationPoints;
+        private Camera _camera;
 
         private void Start()
         {
@@ -36,7 +37,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                 var boundingVector = Camera.main.WorldToScreenPoint(exfiltrationPoint.transform.position);
                 if (boundingVector.z > 0.01)
                 {
-                    float distanceToObject = Vector3.Distance(Camera.main.transform.position, exfiltrationPoint.transform.position);
+                    float distanceToObject = Vector3.Distance(_camera.transform.position, exfiltrationPoint.transform.position);
                     GUI.color = Color.green;
                     string boxText = $"{ExtractionNameToSimpleName(exfiltrationPoint.name)} - {(int)distanceToObject}m";
                     GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), boxText);
@@ -144,7 +145,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             if (extractionName.Contains("NW_Exfil"))
                 return "North West Extract";
             if (extractionName.Contains("SE_Exfil"))
-                return "South East Extract";
+                return "Emmercom";
             return extractionName;
         }
 
@@ -156,6 +157,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             {
                 if (Settings.DrawExfiltrationPoints)
                     _exfiltrationPoints = FindObjectsOfType<ExfiltrationPoint>();
+
+                if (_camera == null)
+                    _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             }
         }
     }

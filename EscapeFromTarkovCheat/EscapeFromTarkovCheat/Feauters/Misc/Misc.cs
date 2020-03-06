@@ -8,5 +8,19 @@ namespace EscapeFromTarkovCheat.Feauters.Misc
 {
     class Misc
     {
+        private void Start()
+        {
+
+        }
+
+        private void Update()
+        {
+
+        }
+
+        private void OnGUI()
+        {
+
+        }
     }
 }

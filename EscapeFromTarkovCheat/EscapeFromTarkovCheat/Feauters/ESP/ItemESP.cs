@@ -13,6 +13,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
     {
         private IEnumerable<LootItem> _lootItems;
         private List<LootItem> _lootItemsToDraw;
+        private Camera _camera;
         private void Start()
         {
             AllocConsoleHandler.Open();
@@ -20,12 +21,19 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             InvokeRepeating(nameof(GetAllItems), 10f, 10f);
             InvokeRepeating(nameof(GetItemsToDraw), 10, 12f);
         }
+
+        private void Update()
+        {
+
+        }
+
         private void OnGUI()
         {
             if (Settings.DrawLootItems)
             {
                 DrawItemESP();
             }
+
         }
 
         public void DrawItemESP()
@@ -33,13 +41,16 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             if (_lootItemsToDraw == null)
                 return;
 
+            if (_camera == null)
+                return;
+
             foreach (LootItem lootItem in _lootItemsToDraw)
             {
-                if (lootItem == null)
+                if (!lootItem.isActiveAndEnabled)
                     continue;
 
-                float distance = Vector3.Distance(Camera.main.transform.position, lootItem.transform.position);
-                Vector3 boundingVector = Camera.main.WorldToScreenPoint(lootItem.transform.position);
+                float distance = Vector3.Distance(_camera.transform.position, lootItem.transform.position);
+                Vector3 boundingVector = _camera.WorldToScreenPoint(lootItem.transform.position);
 
                 if (boundingVector.z > 0.01 && distance <= Settings.DrawLootItemsDistance)
                 {
@@ -59,6 +70,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             {
                 if (Settings.DrawLootItems)
                     _lootItems = FindObjectsOfType<LootItem>();
+
+                if (_camera == null)
+                    _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             }
         }
 
@@ -66,7 +80,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         {
             if (_lootItems == null)
                 return;
-            
+
             foreach (LootItem lootItem in _lootItems)
             {
                 if (lootItem == null)
@@ -97,7 +111,6 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                     lootItem.name.Contains("glock") ||
                     lootItem.name.Contains("SA-58"))
                 {
-                    Console.WriteLine(lootItem.name);
                     _lootItemsToDraw.Add(lootItem);
                 }
             }

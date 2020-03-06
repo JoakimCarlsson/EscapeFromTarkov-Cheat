@@ -10,6 +10,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
     public class LootableContainerESP : MonoBehaviour
     {
         private IEnumerable<LootableContainer> _lootableContainers;
+        private Camera _camera;
 
         private void Start()
         {
@@ -33,8 +34,8 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                 if (lootableContainer == null)
                     continue;
 
-                float distance = Vector3.Distance(Camera.main.transform.position, lootableContainer.transform.position);
-                var boundingVector = Camera.main.WorldToScreenPoint(lootableContainer.transform.position);
+                float distance = Vector3.Distance(_camera.transform.position, lootableContainer.transform.position);
+                var boundingVector = _camera.WorldToScreenPoint(lootableContainer.transform.position);
                 if (boundingVector.z > 0.01 && distance <= Settings.DrawLootableContainersDistance)
                 {
                     GUI.color = Color.magenta;
@@ -52,6 +53,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             {
                 if (Settings.DrawLootableContainers)
                     _lootableContainers = FindObjectsOfType<LootableContainer>();
+
+                if (_camera == null)
+                    _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             }
         }
     }

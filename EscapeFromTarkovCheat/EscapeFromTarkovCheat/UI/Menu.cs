@@ -8,8 +8,6 @@ namespace Menu.UI
 {
     public class Menu : MonoBehaviour
     {
-
-
         private Rect _mainWindow;
         private Rect _playerVisualWindow;
         private Rect _miscVisualWindow;
