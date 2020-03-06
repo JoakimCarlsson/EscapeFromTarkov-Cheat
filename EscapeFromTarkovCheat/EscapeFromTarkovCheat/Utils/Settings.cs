@@ -24,16 +24,5 @@ namespace EscapeFromTarkovCheat.Utils
         internal static float DrawLootItemsDistance = 300f;
         internal static float DrawLootableContainersDistance = 2000f;
         internal static float DrawPlayersDistance = 2000f;
-
-        internal static bool Aimbot = false;
-        internal static KeyCode AimbotKey = KeyCode.LeftControl;
-        internal static bool AimbotDrawFov = false;
-        internal static bool AimbotSmooth = true;
-        internal static float AimbotSmoothValue = 1f;
-        internal static float AimbotFOV = 20f;
-        
-        internal static bool NoRecoil = false;
-        internal static bool NoSway = false;
-        internal static bool DoorUnlocker = false;
     }
 }

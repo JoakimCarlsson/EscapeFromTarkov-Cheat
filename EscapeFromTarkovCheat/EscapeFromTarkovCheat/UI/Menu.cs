@@ -17,8 +17,6 @@ namespace Menu.UI
         private bool _visible = true;
         private bool _playerEspVisualVisible;
         private bool _miscVisualVisible;
-        private bool _aimbotVisualVisible;
-        private bool _miscFeautersVisible;
 
 
         private void Start()
@@ -26,8 +24,6 @@ namespace Menu.UI
             _mainWindow = new Rect(20f, 60f, 250f, 150f);
             _playerVisualWindow = new Rect(20f, 220f, 250f, 150f);
             _miscVisualWindow = new Rect(20f, 260f, 250f, 150f);
-            _aimbotVisualWindow = new Rect(20f, 260f, 250f, 150f);
-            _miscFeautersVisualWindow = new Rect(20f, 260f, 250f, 150f);
         }
 
         private void Update()
@@ -53,10 +49,6 @@ namespace Menu.UI
                 _playerVisualWindow = GUILayout.Window(1, _playerVisualWindow, RenderUi, "Player Visual");
             if (_miscVisualVisible)
                 _miscVisualWindow = GUILayout.Window(2, _miscVisualWindow, RenderUi, "Misc Visual");
-            if (_aimbotVisualVisible)
-                _aimbotVisualWindow = GUILayout.Window(3, _aimbotVisualWindow, RenderUi, "Aimbot");
-            if (_miscFeautersVisible)
-                _miscFeautersVisualWindow = GUILayout.Window(4, _miscFeautersVisualWindow, RenderUi, "Misc");
         }
 
         private void RenderUi(int id)
@@ -71,10 +63,6 @@ namespace Menu.UI
                         _playerEspVisualVisible = !_playerEspVisualVisible;
                     if (GUILayout.Button("Misc Visual"))
                         _miscVisualVisible = !_miscVisualVisible;
-                    if (GUILayout.Button("Aimbot"))
-                        _aimbotVisualVisible = !_aimbotVisualVisible;
-                    if (GUILayout.Button("Misc"))
-                        _miscFeautersVisible = !_miscFeautersVisible;
                     break;
 
                 case 1:
@@ -97,23 +85,6 @@ namespace Menu.UI
                     Settings.DrawLootableContainersDistance = GUILayout.HorizontalSlider(Settings.DrawLootableContainersDistance, 0f, 2000f);
 
                     Settings.DrawExfiltrationPoints = GUILayout.Toggle(Settings.DrawExfiltrationPoints, "Draw Exits");
-                    break;
-
-                case 3:
-                    Settings.Aimbot = GUILayout.Toggle(Settings.Aimbot, "Aimbot");
-                    Settings.AimbotDrawFov = GUILayout.Toggle(Settings.AimbotDrawFov, "Aimbot Draw FOV");
-                    GUILayout.Label($"Aimbot FOV {(int)Settings.AimbotFOV} m");
-                    Settings.AimbotFOV = GUILayout.HorizontalSlider(Settings.AimbotFOV, 0f, 360);
-
-                    Settings.AimbotSmooth = GUILayout.Toggle(Settings.AimbotSmooth, "Aimbot Smooth");
-                    GUILayout.Label($"Aimbot Smooth {(int)Settings.AimbotSmoothValue} m");
-                    Settings.AimbotSmoothValue = GUILayout.HorizontalSlider(Settings.AimbotSmoothValue, 0f, 360);
-                    break;
-
-                case 4:
-                    Settings.NoRecoil = GUILayout.Toggle(Settings.NoRecoil, "No Recoil");
-                    Settings.NoSway = GUILayout.Toggle(Settings.NoRecoil, "No Sway");
-                    Settings.DoorUnlocker = GUILayout.Toggle(Settings.NoRecoil, "Door Unlocker");
                     break;
             }
             GUI.DragWindow();

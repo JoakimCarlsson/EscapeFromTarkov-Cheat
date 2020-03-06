@@ -87,10 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EFTTarget.cs" />
-    <Compile Include="Feauters\Aimbot\Aimbot.cs" />
     <Compile Include="Feauters\ESP\ExfiltrationPointsESP.cs" />
     <Compile Include="Feauters\ESP\ItemESP.cs" />
-    <Compile Include="Feauters\Misc\Misc.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Feauters\ESP\LootableContainerESP.cs" />
     <Compile Include="Feauters\ESP\PlayerESP.cs" />
