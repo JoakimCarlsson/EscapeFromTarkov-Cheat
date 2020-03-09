@@ -12,21 +12,24 @@ namespace EscapeFromTarkovCheat.Utils
     {
         public static float Map(float value, float sourceFrom, float sourceTo, float destinationFrom, float destinationTo)
         {
-            return ((value - sourceFrom) / (sourceTo - sourceFrom) * (destinationTo - destinationFrom) + destinationFrom);
+            return (value - sourceFrom) / (sourceTo - sourceFrom) * (destinationTo - destinationFrom) + destinationFrom;
         }
         public static bool IsPlayerValid(Player player)
         {
-            return ((player != null) && (player.Transform != null) && (player.PlayerBones != null) && (player.PlayerBones.transform != null));
+            return player != null && player.Transform != null && player.PlayerBones != null && player.PlayerBones.transform != null;
         }
-
+        public static bool IsExfiltrationPointValid(ExfiltrationPoint lootItem)
+        {
+            return lootItem != null;
+        }
         public static bool IsLootItemValid(LootItem lootItem)
         {
-            return ((lootItem != null) && (lootItem.Item != null) && (lootItem.Item.Template != null));
+            return lootItem != null && lootItem.Item != null && lootItem.Item.Template != null;
         }
 
         public static bool IsLootableContainerValid(LootableContainer lootableContainer)
         {
-            return ((lootableContainer != null) && (lootableContainer.Template != null));
+            return lootableContainer != null && lootableContainer.Template != null;
         }
 
         public static bool IsPlayerAlive(Player player)
@@ -44,14 +47,14 @@ namespace EscapeFromTarkovCheat.Utils
         {
             Vector3 screenPoint = Camera.main.WorldToScreenPoint(worldPoint);
 
-            screenPoint.y = (Screen.height - screenPoint.y);
+            screenPoint.y = Screen.height - screenPoint.y;
 
             return screenPoint;
         }
 
         public static bool IsScreenPointVisible(Vector3 screenPoint)
         {
-            return ((screenPoint.z > 0.01f) && (screenPoint.x > -5f) && (screenPoint.y > -5f) && (screenPoint.x < Screen.width) && (screenPoint.y < Screen.height));
+            return screenPoint.z > 0.01f && screenPoint.x > -5f && screenPoint.y > -5f && screenPoint.x < Screen.width && screenPoint.y < Screen.height;
         }
 
         public static Vector3 GetBonePosByID(Player player, int id)

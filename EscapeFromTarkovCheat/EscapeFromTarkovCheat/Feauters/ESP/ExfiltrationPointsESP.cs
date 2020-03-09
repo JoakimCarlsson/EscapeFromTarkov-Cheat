@@ -2,49 +2,69 @@
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
+using EscapeFromTarkovCheat.Data;
 using EscapeFromTarkovCheat.Utils;
+using JsonType;
 using UnityEngine;
 
 namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class ExfiltrationPointsESP : MonoBehaviour
     {
-        private IEnumerable<ExfiltrationPoint> _exfiltrationPoints;
-        private Camera _camera;
+        private List<GameExfiltrationPoint> _gameExfiltrationPoints;
+        private static readonly float CacheExfiltrationPointInterval = 15f;
+        private float _nextLootItemCacheTime;
 
-        private void Start()
+        private static readonly Color ExfiltrationPointColour = Color.green;
+
+        public void Start()
         {
-            InvokeRepeating(nameof(GetExfilrationPoints), 10f, 10f);
+            _gameExfiltrationPoints = new List<GameExfiltrationPoint>();
         }
 
+        public void Update()
+        {
+            if (!Settings.DrawExfiltrationPoints) 
+                return;
+
+            if (Time.time >= _nextLootItemCacheTime)
+            {
+                GameWorld gameWorld = Singleton<GameWorld>.Instance;
+
+                if ((gameWorld != null) && (gameWorld.ExfiltrationController.ExfiltrationPoints != null))
+                {
+                    _gameExfiltrationPoints.Clear();
+                    foreach (var exfiltrationPoint in gameWorld.ExfiltrationController.ExfiltrationPoints)
+                    {
+                        if (!GameUtils.IsExfiltrationPointValid(exfiltrationPoint))
+                            continue;
+
+                        _gameExfiltrationPoints.Add(new GameExfiltrationPoint(exfiltrationPoint));
+                    }
+
+                    _nextLootItemCacheTime = (Time.time + CacheExfiltrationPointInterval);
+                }
+            }
+
+            foreach (GameExfiltrationPoint gameExfiltrationPoint in _gameExfiltrationPoints)
+                gameExfiltrationPoint.RecalculateDynamics();
+
+        }
         private void OnGUI()
         {
             if (Settings.DrawExfiltrationPoints)
             {
-                DrawExfiltrationPoints();
-            }
-        }
-
-        public void DrawExfiltrationPoints()
-        {
-            if (_exfiltrationPoints == null)
-                return;
-
-            foreach (var exfiltrationPoint in _exfiltrationPoints)
-            {
-                if (exfiltrationPoint == null)
-                    continue;
-                var boundingVector = Camera.main.WorldToScreenPoint(exfiltrationPoint.transform.position);
-                if (boundingVector.z > 0.01)
+                foreach (var exfiltrationPoint in _gameExfiltrationPoints)
                 {
-                    float distanceToObject = Vector3.Distance(_camera.transform.position, exfiltrationPoint.transform.position);
-                    GUI.color = Color.green;
-                    string boxText = $"{ExtractionNameToSimpleName(exfiltrationPoint.name)} - {(int)distanceToObject}m";
-                    GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), boxText);
+                    if (!GameUtils.IsExfiltrationPointValid(exfiltrationPoint.ExfiltrationPoint) || !exfiltrationPoint.IsOnScreen || exfiltrationPoint.Distance > Settings.DrawLootItemsDistance)
+                        continue;
+
+                    string lootItemName = $"{ExtractionNameToSimpleName(exfiltrationPoint.ExfiltrationPoint.name)} [{exfiltrationPoint.FormattedDistance}]";
+
+                    Render.DrawString(new Vector2(exfiltrationPoint.ScreenPosition.x - 50f, exfiltrationPoint.ScreenPosition.y), lootItemName, ExfiltrationPointColour);
                 }
             }
         }
-
         private string ExtractionNameToSimpleName(string extractionName)
         {
             // Factory
@@ -149,19 +169,6 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             return extractionName;
         }
 
-        private void GetExfilrationPoints()
-        {
-            GameWorld world = Singleton<GameWorld>.Instance;
-
-            if (world != null)
-            {
-                if (Settings.DrawExfiltrationPoints)
-                    _exfiltrationPoints = FindObjectsOfType<ExfiltrationPoint>();
-
-                if (_camera == null)
-                    _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-            }
-        }
     }
 
 }

@@ -46,8 +46,8 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                 }
             }
 
-            foreach (GameLootContainer gameLootItem in _gameLootContainers)
-                gameLootItem.RecalculateDynamics();
+            foreach (GameLootContainer gameLootContainer in _gameLootContainers)
+                gameLootContainer.RecalculateDynamics();
         }
 
         public void OnGUI()

@@ -31,6 +31,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
         public void Update()
         {
+            if (!Settings.DrawLootItems) 
+                return;
+
             if (Time.time >= _nextLootItemCacheTime)
             {
                 GameWorld gameWorld = Singleton<GameWorld>.Instance;
@@ -55,6 +58,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
             foreach (GameLootItem gameLootItem in _gameLootItems)
                 gameLootItem.RecalculateDynamics();
+
         }
 
         private void OnGUI()
@@ -78,7 +82,6 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                         Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, QuestColor);
                 }
             }
-
         }
     }
 }
