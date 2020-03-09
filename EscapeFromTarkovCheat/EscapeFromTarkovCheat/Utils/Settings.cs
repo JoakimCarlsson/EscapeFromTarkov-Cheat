@@ -17,7 +17,6 @@ namespace EscapeFromTarkovCheat.Utils
 
         internal static bool DrawPlayers = true;
         internal static bool DrawPlayerName = false;
-        internal static bool DrawPlayerSkeleton = true;
         internal static bool DrawPlayerHealth = true;
         internal static bool DrawPlayerBox = true;
 

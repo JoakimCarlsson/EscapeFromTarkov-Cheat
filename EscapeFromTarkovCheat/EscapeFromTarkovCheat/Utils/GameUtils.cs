@@ -10,7 +10,10 @@ namespace EscapeFromTarkovCheat.Utils
 
     public static class GameUtils
     {
-
+        public static float Map(float value, float sourceFrom, float sourceTo, float destinationFrom, float destinationTo)
+        {
+            return ((value - sourceFrom) / (sourceTo - sourceFrom) * (destinationTo - destinationFrom) + destinationFrom);
+        }
         public static bool IsPlayerValid(Player player)
         {
             return ((player != null) && (player.Transform != null) && (player.PlayerBones != null) && (player.PlayerBones.transform != null));

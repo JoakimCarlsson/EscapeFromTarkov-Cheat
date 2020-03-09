@@ -66,7 +66,6 @@ namespace Menu.UI
                     Settings.DrawPlayers = GUILayout.Toggle(Settings.DrawPlayers, "Draw Players");
                     Settings.DrawPlayerBox = GUILayout.Toggle(Settings.DrawPlayerBox, "Draw Player Box");
                     Settings.DrawPlayerName = GUILayout.Toggle(Settings.DrawPlayerName, "Draw Player Name");
-                    Settings.DrawPlayerSkeleton = GUILayout.Toggle(Settings.DrawPlayerSkeleton, "Draw Player Skeleton");
                     Settings.DrawPlayerHealth = GUILayout.Toggle(Settings.DrawPlayerHealth, "Draw Player Health");
                     GUILayout.Label($"Player Distance {(int)Settings.DrawPlayersDistance} m");
                     Settings.DrawPlayersDistance = GUILayout.HorizontalSlider(Settings.DrawPlayersDistance,0f, 2000f);

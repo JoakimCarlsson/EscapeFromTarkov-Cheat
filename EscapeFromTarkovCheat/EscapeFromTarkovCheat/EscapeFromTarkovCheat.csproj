@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\GameLootItem.cs" />
+    <Compile Include="Data\GamePlayer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Feauters\ESP\ExfiltrationPointsESP.cs" />
     <Compile Include="Feauters\ESP\ItemESP.cs" />
