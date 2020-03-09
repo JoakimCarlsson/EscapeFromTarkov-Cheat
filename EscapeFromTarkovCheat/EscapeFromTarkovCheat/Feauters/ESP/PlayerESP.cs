@@ -64,11 +64,11 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                         var playerNeckVector = _camera.WorldToScreenPoint(player.PlayerBones.Neck.position);
                         var playerCenterVector = _camera.WorldToScreenPoint(player.PlayerBones.Pelvis.position);
                         var playerRightFootVector =  _camera.WorldToScreenPoint(player.PlayerBones.KickingFoot.position);
-                        var playerLeftFootVector= _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 18));
-                        var playerLeftElbow  = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 91));
-                        var playerRightElbow = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 112));
-                        var playerLeftKnee = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 17));
-                        var playerRightKnee = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 22));
+                        var playerLeftFootVector= _camera.WorldToScreenPoint(GameUtils.GetBonePosByID(player, 18));
+                        var playerLeftElbow  = _camera.WorldToScreenPoint(GameUtils.GetBonePosByID(player, 91));
+                        var playerRightElbow = _camera.WorldToScreenPoint(GameUtils.GetBonePosByID(player, 112));
+                        var playerLeftKnee = _camera.WorldToScreenPoint(GameUtils.GetBonePosByID(player, 17));
+                        var playerRightKnee = _camera.WorldToScreenPoint(GameUtils.GetBonePosByID(player, 22));
 
                         Render.DrawLine(new Vector2(playerNeckVector.x, Screen.height - playerNeckVector.y), new Vector2(playerCenterVector.x, Screen.height - playerCenterVector.y), 1f, playerColor);
                         Render.DrawLine(new Vector2(playerLeftShoulderVector.x, Screen.height - playerLeftShoulderVector.y), new Vector2(playerLeftElbow.x, Screen.height - playerLeftElbow.y), 1f, playerColor);

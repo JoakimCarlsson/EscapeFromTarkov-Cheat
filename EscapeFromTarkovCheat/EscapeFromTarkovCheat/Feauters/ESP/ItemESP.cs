@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
+using EscapeFromTarkovCheat.Data;
 using EscapeFromTarkovCheat.Utils;
 using UnityEngine;
 
@@ -11,109 +12,59 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class ItemESP : MonoBehaviour
     {
-        private IEnumerable<LootItem> _lootItems;
-        private List<LootItem> _lootItemsToDraw;
-        private Camera _camera;
+        private static readonly float CacheLootItemsInterval = 2.5f;
+        private static readonly float MaximumLootItemDistance = 1000f;
+        private float _nextLootItemCacheTime;
+
+        private List<GameLootItem> _gameLootItems;
         private void Start()
         {
+            _gameLootItems = new List<GameLootItem>();
             AllocConsoleHandler.Open();
-            _lootItemsToDraw = new List<LootItem>();
-            InvokeRepeating(nameof(GetAllItems), 10f, 10f);
-            InvokeRepeating(nameof(GetItemsToDraw), 10, 12f);
         }
 
-        private void Update()
+        public void Update()
         {
+            if (Time.time >= _nextLootItemCacheTime)
+            {
+                GameWorld gameWorld = Singleton<GameWorld>.Instance;
 
+                if ((gameWorld != null) && (gameWorld.LootItems != null))
+                {
+                    _gameLootItems.Clear();
+
+                    for (int i = 0; i < gameWorld.LootItems.Count; i++)
+                    {
+                        LootItem lootItem = gameWorld.LootItems.GetByIndex(i);
+
+                        if (!GameUtils.IsLootItemValid(lootItem) || (Vector3.Distance(Camera.main.transform.position, lootItem.transform.position) > MaximumLootItemDistance))
+                            continue;
+
+                        _gameLootItems.Add(new GameLootItem(lootItem));
+                    }
+
+                    _nextLootItemCacheTime = (Time.time + CacheLootItemsInterval);
+                }
+            }
+
+            foreach (GameLootItem gameLootItem in _gameLootItems)
+                gameLootItem.RecalculateDynamics();
         }
 
         private void OnGUI()
         {
             if (Settings.DrawLootItems)
             {
-                DrawItemESP();
-            }
-
-        }
-
-        public void DrawItemESP()
-        {
-            if (_lootItemsToDraw == null)
-                return;
-
-            if (_camera == null)
-                return;
-
-            foreach (LootItem lootItem in _lootItemsToDraw)
-            {
-                if (!lootItem.isActiveAndEnabled)
-                    continue;
-
-                float distance = Vector3.Distance(_camera.transform.position, lootItem.transform.position);
-                Vector3 boundingVector = _camera.WorldToScreenPoint(lootItem.transform.position);
-
-                if (boundingVector.z > 0.01 && distance <= Settings.DrawLootItemsDistance)
+                foreach (var gameLootItem in _gameLootItems)
                 {
-                    string text = $"{lootItem.Name.Localized().ToLowerInvariant()} - [ {(int)distance}m ]";
+                    if (!GameUtils.IsLootItemValid(gameLootItem.LootItem) || !gameLootItem.IsOnScreen || gameLootItem.Distance > Settings.DrawLootItemsDistance)
+                        continue;
 
-                    GUI.color = Color.yellow;
-                    GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), text);
+                    string lootItemName = $"{gameLootItem.LootItem.Item.ShortName.Localized()} [{gameLootItem.FormattedDistance}]";
+                    GUI.Label(new Rect(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y, 100f, 50f), lootItemName);
                 }
             }
-        }
 
-        private void GetAllItems()
-        {
-            GameWorld world = Singleton<GameWorld>.Instance;
-
-            if (world != null)
-            {
-                if (Settings.DrawLootItems)
-                    _lootItems = FindObjectsOfType<LootItem>();
-
-                if (_camera == null)
-                    _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-            }
-        }
-
-        private void GetItemsToDraw()
-        {
-            if (_lootItems == null)
-                return;
-
-            foreach (LootItem lootItem in _lootItems)
-            {
-                if (lootItem == null)
-                    continue;
-
-                if (lootItem.name.Contains("key") ||
-                    lootItem.name.Contains("usb") ||
-                    lootItem.name.Contains("alkali") ||
-                    lootItem.name.Contains("ophalmo") ||
-                    lootItem.name.Contains("gunpowder") ||
-                    lootItem.name.Contains("phone") ||
-                    lootItem.name.Contains("money") ||
-                    lootItem.name.Contains("document") ||
-                    lootItem.name.Contains("quest") ||
-                    lootItem.name.Contains("spark") ||
-                    lootItem.name.Contains("grizzly") ||
-                    lootItem.name.Contains("sv-98") ||
-                    lootItem.name.Contains("sv98") ||
-                    lootItem.name.Contains("rsas") ||
-                    lootItem.name.Contains("salewa") ||
-                    lootItem.name.Equals("bitcoin") ||
-                    lootItem.name.Contains("dvl") ||
-                    lootItem.name.Contains("m4a1") ||
-                    lootItem.name.Contains("roler") ||
-                    lootItem.name.Contains("chain") ||
-                    lootItem.name.Contains("wallet") ||
-                    lootItem.name.Contains("RSASS") ||
-                    lootItem.name.Contains("glock") ||
-                    lootItem.name.Contains("SA-58"))
-                {
-                    _lootItemsToDraw.Add(lootItem);
-                }
-            }
         }
     }
 }
