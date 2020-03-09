@@ -18,6 +18,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         private float _nextLootItemCacheTime;
 
         private static readonly Color _specialColor = new Color(1f, 0.2f, 0.09f);
+
         private static readonly Color _questColor = Color.yellow;
         private static readonly Color _commonColor = Color.white;
         private static readonly Color _rareColor = new Color(0.38f, 0.43f, 1f);
@@ -75,6 +76,8 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                         Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _rareColor);
                     if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Superrare)
                         Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _superRareColor);
+                    if (gameLootItem.LootItem.Item.Template.QuestItem)
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _questColor);
                 }
             }
 
