@@ -6,6 +6,7 @@ using EFT;
 using EFT.Interactive;
 using EscapeFromTarkovCheat.Data;
 using EscapeFromTarkovCheat.Utils;
+using JsonType;
 using UnityEngine;
 
 namespace EscapeFromTarkovCheat.Feauters.ESP
@@ -15,6 +16,12 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         private static readonly float CacheLootItemsInterval = 2.5f;
         private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootItemCacheTime;
+
+        private static readonly Color _specialColor = new Color(1f, 0.2f, 0.09f);
+        private static readonly Color _questColor = Color.yellow;
+        private static readonly Color _commonColor = Color.white;
+        private static readonly Color _rareColor = new Color(0.38f, 0.43f, 1f);
+        private static readonly Color _superRareColor = new Color(1f, 0.29f, 0.36f);
 
         private List<GameLootItem> _gameLootItems;
         private void Start()
@@ -61,7 +68,13 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                         continue;
 
                     string lootItemName = $"{gameLootItem.LootItem.Item.ShortName.Localized()} [{gameLootItem.FormattedDistance}]";
-                    GUI.Label(new Rect(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y, 100f, 50f), lootItemName);
+
+                    if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Common)
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _commonColor);
+                    if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Rare)
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _rareColor);
+                    if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Superrare)
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _superRareColor);
                 }
             }
 
