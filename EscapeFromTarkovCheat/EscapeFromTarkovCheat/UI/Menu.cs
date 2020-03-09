@@ -17,6 +17,7 @@ namespace Menu.UI
 
         private void Start()
         {
+            AllocConsoleHandler.Open();
             _mainWindow = new Rect(20f, 60f, 250f, 150f);
             _playerVisualWindow = new Rect(20f, 220f, 250f, 150f);
             _miscVisualWindow = new Rect(20f, 260f, 250f, 150f);

@@ -17,18 +17,16 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootItemCacheTime;
 
-        private static readonly Color _specialColor = new Color(1f, 0.2f, 0.09f);
-
-        private static readonly Color _questColor = Color.yellow;
-        private static readonly Color _commonColor = Color.white;
-        private static readonly Color _rareColor = new Color(0.38f, 0.43f, 1f);
-        private static readonly Color _superRareColor = new Color(1f, 0.29f, 0.36f);
+        private static readonly Color SpecialColor = new Color(1f, 0.2f, 0.09f);
+        private static readonly Color QuestColor = Color.yellow;
+        private static readonly Color CommonColor = Color.white;
+        private static readonly Color RareColor = new Color(0.38f, 0.43f, 1f);
+        private static readonly Color SuperRareColor = new Color(1f, 0.29f, 0.36f);
 
         private List<GameLootItem> _gameLootItems;
         private void Start()
         {
             _gameLootItems = new List<GameLootItem>();
-            AllocConsoleHandler.Open();
         }
 
         public void Update()
@@ -71,13 +69,13 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                     string lootItemName = $"{gameLootItem.LootItem.Item.ShortName.Localized()} [{gameLootItem.FormattedDistance}]";
 
                     if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Common)
-                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _commonColor);
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, CommonColor);
                     if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Rare)
-                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _rareColor);
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, RareColor);
                     if (gameLootItem.LootItem.Item.Template.Rarity == ELootRarity.Superrare)
-                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _superRareColor);
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, SuperRareColor);
                     if (gameLootItem.LootItem.Item.Template.QuestItem)
-                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, _questColor);
+                        Render.DrawString(new Vector2(gameLootItem.ScreenPosition.x - 50f, gameLootItem.ScreenPosition.y), lootItemName, QuestColor);
                 }
             }
 

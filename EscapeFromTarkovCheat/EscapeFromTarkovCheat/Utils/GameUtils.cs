@@ -11,11 +11,6 @@ namespace EscapeFromTarkovCheat.Utils
     public static class GameUtils
     {
 
-        static GameUtils()
-        {
-
-        }
-
         public static bool IsPlayerValid(Player player)
         {
             return ((player != null) && (player.Transform != null) && (player.PlayerBones != null) && (player.PlayerBones.transform != null));
