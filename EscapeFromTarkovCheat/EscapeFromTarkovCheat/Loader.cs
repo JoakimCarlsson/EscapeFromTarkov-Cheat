@@ -22,7 +22,6 @@ namespace EscapeFromTarkovCheat
 
         public static void Load()
         {
-            //Need too add Misc when we add in feauters
             HookObject.AddComponent<Menu.UI.Menu>();
             HookObject.AddComponent<PlayerESP>();
             HookObject.AddComponent<ItemESP>();

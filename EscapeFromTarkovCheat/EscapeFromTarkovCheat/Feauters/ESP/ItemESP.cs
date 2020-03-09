@@ -54,7 +54,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
                 if (boundingVector.z > 0.01 && distance <= Settings.DrawLootItemsDistance)
                 {
-                    string text = $"{lootItem.Name.Localized().ToLowerInvariant()} - [{(int)distance}]m";
+                    string text = $"{lootItem.Name.Localized().ToLowerInvariant()} - [ {(int)distance}m ]";
 
                     GUI.color = Color.yellow;
                     GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), text);

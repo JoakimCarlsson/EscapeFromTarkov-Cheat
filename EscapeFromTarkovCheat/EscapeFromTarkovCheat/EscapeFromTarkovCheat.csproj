@@ -61,9 +61,6 @@
     <Reference Include="Comfort.Unity">
       <HintPath>..\..\..\..\..\Desktop\EmuTarkov-AllInOne dev-r22 0.12.2.5485\client\EscapeFromTarkov_Data\Managed\Comfort.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\..\..\..\..\Desktop\EmuTarkov-AllInOne dev-r22 0.12.2.5485\client\EscapeFromTarkov_Data\Managed\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -86,7 +83,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EFTTarget.cs" />
     <Compile Include="Feauters\ESP\ExfiltrationPointsESP.cs" />
     <Compile Include="Feauters\ESP\ItemESP.cs" />
     <Compile Include="Loader.cs" />

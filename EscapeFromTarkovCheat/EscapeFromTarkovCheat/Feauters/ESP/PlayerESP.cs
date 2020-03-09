@@ -57,62 +57,18 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
                     if (Settings.DrawPlayerSkeleton && player.ActiveHealthController.IsAlive)
                     {
-                        #region Skeleton ESP
-
-                        var playerRightPalmVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.RightPalm.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.RightPalm.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.RightPalm.position).z);
-                        var playerLeftPalmVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.LeftPalm.position).z);
-                        var playerLeftShoulderVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position).z);
-                        var playerRightShoulderVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.RightShoulder.position).z);
-                        var playerNeckVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.Neck.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.Neck.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.Neck.position).z);
-                        var playerCenterVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.Pelvis.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.Pelvis.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.Pelvis.position).z);
-                        var playerRightFootVector = new Vector3(
-                            _camera.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).x,
-                            _camera.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).y,
-                            _camera.WorldToScreenPoint(player.PlayerBones.KickingFoot.position).z);
-
-                        var playerLeftFootVector = new Vector3(
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 18)).x,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 18)).y,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 18)).z
-                        );
-                        var playerLeftElbow = new Vector3(
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 91)).x,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 91)).y,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 91)).z
-                        );
-                        var playerRightElbow = new Vector3(
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 112)).x,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 112)).y,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 112)).z
-                        );
-                        var playerLeftKnee = new Vector3(
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 17)).x,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 17)).y,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 17)).z
-                        );
-                        var playerRightKnee = new Vector3(
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 22)).x,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 22)).y,
-                            _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 22)).z
-                        );
+                        var playerRightPalmVector = _camera.WorldToScreenPoint(player.PlayerBones.RightPalm.position);
+                        var playerLeftPalmVector = _camera.WorldToScreenPoint(player.PlayerBones.LeftPalm.position);
+                        var playerLeftShoulderVector = _camera.WorldToScreenPoint(player.PlayerBones.LeftShoulder.position);
+                        var playerRightShoulderVector = _camera.WorldToScreenPoint(player.PlayerBones.RightShoulder.position);
+                        var playerNeckVector = _camera.WorldToScreenPoint(player.PlayerBones.Neck.position);
+                        var playerCenterVector = _camera.WorldToScreenPoint(player.PlayerBones.Pelvis.position);
+                        var playerRightFootVector =  _camera.WorldToScreenPoint(player.PlayerBones.KickingFoot.position);
+                        var playerLeftFootVector= _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 18));
+                        var playerLeftElbow  = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 91));
+                        var playerRightElbow = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 112));
+                        var playerLeftKnee = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 17));
+                        var playerRightKnee = _camera.WorldToScreenPoint(Helpers.GetBonePosByID(player, 22));
 
                         Render.DrawLine(new Vector2(playerNeckVector.x, Screen.height - playerNeckVector.y), new Vector2(playerCenterVector.x, Screen.height - playerCenterVector.y), 1f, playerColor);
                         Render.DrawLine(new Vector2(playerLeftShoulderVector.x, Screen.height - playerLeftShoulderVector.y), new Vector2(playerLeftElbow.x, Screen.height - playerLeftElbow.y), 1f, playerColor);
@@ -124,14 +80,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                         Render.DrawLine(new Vector2(playerRightKnee.x, Screen.height - playerRightKnee.y), new Vector2(playerCenterVector.x, Screen.height - playerCenterVector.y), 1f, playerColor);
                         Render.DrawLine(new Vector2(playerLeftKnee.x, Screen.height - playerLeftKnee.y), new Vector2(playerLeftFootVector.x, Screen.height - playerLeftFootVector.y), 1f, playerColor);
                         Render.DrawLine(new Vector2(playerRightKnee.x, Screen.height - playerRightKnee.y), new Vector2(playerRightFootVector.x, Screen.height - playerRightFootVector.y), 1f, playerColor);
-
-                        #endregion
                     }
 
-                    var playerHeadVector = new Vector3(
-                        _camera.WorldToScreenPoint(player.PlayerBones.Head.position).x,
-                        _camera.WorldToScreenPoint(player.PlayerBones.Head.position).y,
-                        _camera.WorldToScreenPoint(player.PlayerBones.Head.position).z);
+                    var playerHeadVector = _camera.WorldToScreenPoint(player.PlayerBones.Head.position);
 
                     float boxVectorX = boundingVector.x;
                     float boxVectorY = playerHeadVector.y + 10f;
@@ -152,7 +103,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                     string playerTextDraw = $"{playerText} [ {(int)distanceToObject} m]";
 
                     var playerTextVector = GUI.skin.GetStyle(playerText).CalcSize(new GUIContent(playerText));
-                    GUI.Label(new Rect(boundingVector.x - playerTextVector.x / 2f, Screen.height - boxVectorY - 20f, 300f, 50f), playerTextDraw);
+                    Render.DrawString(new Vector2(boundingVector.x - playerTextVector.x / 2f, Screen.height - boxVectorY - 20f), playerTextDraw, playerColor);
 
                     if (Settings.DrawPlayerBox && player.ActiveHealthController.IsAlive)
                         Render.DrawBox(boxVectorX - boxWidth / 2f, Screen.height - boxVectorY, boxWidth, boxHeight, playerColor);

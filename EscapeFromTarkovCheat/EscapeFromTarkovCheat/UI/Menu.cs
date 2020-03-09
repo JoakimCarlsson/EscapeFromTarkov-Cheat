@@ -11,13 +11,9 @@ namespace Menu.UI
         private Rect _mainWindow;
         private Rect _playerVisualWindow;
         private Rect _miscVisualWindow;
-        private Rect _aimbotVisualWindow;
-        private Rect _miscFeautersVisualWindow;
-
         private bool _visible = true;
         private bool _playerEspVisualVisible;
         private bool _miscVisualVisible;
-
 
         private void Start()
         {
