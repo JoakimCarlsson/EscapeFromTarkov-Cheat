@@ -2,60 +2,66 @@
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
+using EscapeFromTarkovCheat.Data;
 using EscapeFromTarkovCheat.Utils;
+using JsonType;
 using UnityEngine;
 
 namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class LootableContainerESP : MonoBehaviour
     {
-        private IEnumerable<LootableContainer> _lootableContainers;
-        private Camera _camera;
+        private static readonly float CacheLootItemsInterval = 2.5f;
+        private static readonly float MaximumLootItemDistance = 1000f;
+        private float _nextLootContainerCacheTime;
+        private List<GameLootContainer> _gameLootContainers;
+        private static readonly Color LootableContainerColor = new Color(1f, 0.2f, 0.09f);
 
-        private void Start()
+        public void Start()
         {
-            InvokeRepeating(nameof(GetLootableContainers), 10f, 10f);
+            _gameLootContainers = new List<GameLootContainer>();
         }
 
-        private void OnGUI()
+        public void Update()
         {
-            if (Settings.DrawLootableContainers)
-            {
-                DrawLootableContainers();
-            }
-        }
-        public void DrawLootableContainers()
-        {
-            if (_lootableContainers == null)
+            if (!Settings.DrawLootableContainers)
                 return;
-
-            foreach (var lootableContainer in _lootableContainers)
+            
+            if (Time.time >= _nextLootContainerCacheTime)
             {
-                if (lootableContainer == null)
-                    continue;
+                GameWorld gameWorld = Singleton<GameWorld>.Instance;
 
-                float distance = Vector3.Distance(_camera.transform.position, lootableContainer.transform.position);
-                var boundingVector = _camera.WorldToScreenPoint(lootableContainer.transform.position);
-                if (boundingVector.z > 0.01 && distance <= Settings.DrawLootableContainersDistance)
+                if ((gameWorld != null) && (gameWorld.LootItems != null))
                 {
-                    GUI.color = Color.magenta;
-                    string boxText = $"{lootableContainer.name} - [{(int)distance}]m";
-                    GUI.Label(new Rect(boundingVector.x - 50f, Screen.height - boundingVector.y, 100f, 50f), boxText);
+                    _gameLootContainers.Clear();
+
+                    foreach (LootableContainer lootableContainer in FindObjectsOfType<LootableContainer>())
+                    {
+                        if (!GameUtils.IsLootableContainerValid(lootableContainer) || (Vector3.Distance(Camera.main.transform.position, lootableContainer.transform.position) > MaximumLootItemDistance))
+                            continue;
+
+                        _gameLootContainers.Add(new GameLootContainer(lootableContainer));
+                    }
+                    _nextLootContainerCacheTime = (Time.time + CacheLootItemsInterval);
                 }
             }
+
+            foreach (GameLootContainer gameLootItem in _gameLootContainers)
+                gameLootItem.RecalculateDynamics();
         }
 
-        private void GetLootableContainers()
+        public void OnGUI()
         {
-            GameWorld world = Singleton<GameWorld>.Instance;
+            if (!Settings.DrawLootableContainers)
+                return;
 
-            if (world != null)
+            foreach (var gameLootContainer in _gameLootContainers)
             {
-                if (Settings.DrawLootableContainers)
-                    _lootableContainers = FindObjectsOfType<LootableContainer>();
+                if (!GameUtils.IsLootableContainerValid(gameLootContainer.LootableContainer) || !gameLootContainer.IsOnScreen || gameLootContainer.Distance > Settings.DrawLootableContainersDistance)
+                    continue;
 
-                if (_camera == null)
-                    _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+                string lootItemName = $"{gameLootContainer.LootableContainer.name} [{gameLootContainer.FormattedDistance}]";
+                Render.DrawString(new Vector2(gameLootContainer.ScreenPosition.x - 50f, gameLootContainer.ScreenPosition.y), lootItemName, LootableContainerColor);
             }
         }
     }

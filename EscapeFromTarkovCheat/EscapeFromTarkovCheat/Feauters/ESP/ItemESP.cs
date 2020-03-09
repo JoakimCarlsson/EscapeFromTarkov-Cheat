@@ -17,7 +17,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootItemCacheTime;
 
-        private static readonly Color SpecialColor = new Color(1f, 0.2f, 0.09f);
+        //private static readonly Color SpecialColor = new Color(1f, 0.2f, 0.09f);
         private static readonly Color QuestColor = Color.yellow;
         private static readonly Color CommonColor = Color.white;
         private static readonly Color RareColor = new Color(0.38f, 0.43f, 1f);

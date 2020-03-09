@@ -24,6 +24,11 @@ namespace EscapeFromTarkovCheat.Utils
             return ((lootItem != null) && (lootItem.Item != null) && (lootItem.Item.Template != null));
         }
 
+        public static bool IsLootableContainerValid(LootableContainer lootableContainer)
+        {
+            return ((lootableContainer != null) && (lootableContainer.Template != null));
+        }
+
         public static bool IsPlayerAlive(Player player)
         {
             if (!IsPlayerValid(player))
