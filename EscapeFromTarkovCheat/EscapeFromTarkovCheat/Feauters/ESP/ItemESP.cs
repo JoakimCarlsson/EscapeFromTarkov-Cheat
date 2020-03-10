@@ -13,7 +13,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class ItemESP : MonoBehaviour
     {
-        private static readonly float CacheLootItemsInterval = 2.5f;
+        private static readonly float CacheLootItemsInterval = 100f;
         private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootItemCacheTime;
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
@@ -11,7 +13,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class LootableContainerESP : MonoBehaviour
     {
-        private static readonly float CacheLootItemsInterval = 2.5f;
+        private static readonly float CacheLootItemsInterval = 100;
         private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootContainerCacheTime;
         private List<GameLootContainer> _gameLootContainers;
@@ -59,6 +61,9 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             {
                 if (!GameUtils.IsLootableContainerValid(gameLootContainer.LootableContainer) || !gameLootContainer.IsOnScreen || gameLootContainer.Distance > Settings.DrawLootableContainersDistance)
                     continue;
+
+                //EFT.InventoryLogic.Item rootItem = gameLootContainer.LootableContainer.ItemOwner.RootItem;
+                //rootItem.Template.Name.Localized();
 
                 string lootItemName = $"{gameLootContainer.LootableContainer.name} [{gameLootContainer.FormattedDistance}]";
                 Render.DrawString(new Vector2(gameLootContainer.ScreenPosition.x - 50f, gameLootContainer.ScreenPosition.y), lootItemName, LootableContainerColor);
