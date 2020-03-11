@@ -81,12 +81,12 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                 if (true)
                 {
                     Vector3 w2s = Main.MainCamera.WorldToScreenPoint(gamePlayer.Player.PlayerBones.RootJoint.position);
+
                     if (w2s.z < 0.01f)
                         return;
-                    Render.DrawLine(new Vector2(Screen.width / 2, Screen.height), new Vector2(w2s.x, Screen.height - w2s.y), 1f, gamePlayer.IsOnScreen ? Color.green : Color.red);
+                    Render.DrawLine(new Vector2(Screen.width / 2, Screen.height), new Vector2(w2s.x, Screen.height - w2s.y), 1f, gamePlayer.Player.IsVisible ? Color.green : Color.red);
                 }
             }
-
         }
     }
 }
