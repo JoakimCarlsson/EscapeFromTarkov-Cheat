@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
@@ -13,7 +14,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class ItemESP : MonoBehaviour
     {
-        private static readonly float CacheLootItemsInterval = 100f;
+        private static readonly float CacheLootItemsInterval = 1f;
         private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootItemCacheTime;
 
@@ -23,15 +24,11 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         private static readonly Color RareColor = new Color(0.38f, 0.43f, 1f);
         private static readonly Color SuperRareColor = new Color(1f, 0.29f, 0.36f);
 
-        private List<GameLootItem> _gameLootItems;
-        private void Start()
-        {
-            _gameLootItems = new List<GameLootItem>();
-        }
-
+        private List<GameLootItem> _gameLootItems = new List<GameLootItem>();
+        private Stopwatch _stopwatch = new Stopwatch();
         public void Update()
         {
-            if (!Settings.DrawLootItems) 
+            if (!Settings.DrawLootItems)
                 return;
 
             if (Time.time >= _nextLootItemCacheTime)
@@ -65,6 +62,8 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         {
             if (Settings.DrawLootItems)
             {
+
+
                 foreach (var gameLootItem in _gameLootItems)
                 {
                     if (!GameUtils.IsLootItemValid(gameLootItem.LootItem) || !gameLootItem.IsOnScreen || gameLootItem.Distance > Settings.DrawLootItemsDistance)
