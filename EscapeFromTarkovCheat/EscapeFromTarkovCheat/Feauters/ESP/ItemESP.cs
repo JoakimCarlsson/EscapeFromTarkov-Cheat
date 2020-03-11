@@ -33,17 +33,15 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
             if (Time.time >= _nextLootItemCacheTime)
             {
-                GameWorld gameWorld = Singleton<GameWorld>.Instance;
-
-                if ((gameWorld != null) && (gameWorld.LootItems != null))
+                if ((Main.GameWorld != null) && (Main.GameWorld.LootItems != null))
                 {
                     _gameLootItems.Clear();
 
-                    for (int i = 0; i < gameWorld.LootItems.Count; i++)
+                    for (int i = 0; i < Main.GameWorld.LootItems.Count; i++)
                     {
-                        LootItem lootItem = gameWorld.LootItems.GetByIndex(i);
+                        LootItem lootItem = Main.GameWorld.LootItems.GetByIndex(i);
 
-                        if (!GameUtils.IsLootItemValid(lootItem) || (Vector3.Distance(Camera.main.transform.position, lootItem.transform.position) > MaximumLootItemDistance))
+                        if (!GameUtils.IsLootItemValid(lootItem) || (Vector3.Distance(Main.MainCamera.transform.position, lootItem.transform.position) > MaximumLootItemDistance))
                             continue;
 
                         _gameLootItems.Add(new GameLootItem(lootItem));
@@ -62,8 +60,6 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
         {
             if (Settings.DrawLootItems)
             {
-
-
                 foreach (var gameLootItem in _gameLootItems)
                 {
                     if (!GameUtils.IsLootItemValid(gameLootItem.LootItem) || !gameLootItem.IsOnScreen || gameLootItem.Distance > Settings.DrawLootItemsDistance)

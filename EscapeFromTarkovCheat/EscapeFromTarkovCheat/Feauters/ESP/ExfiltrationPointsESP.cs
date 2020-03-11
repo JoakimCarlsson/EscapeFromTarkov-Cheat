@@ -24,12 +24,10 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
             if (Time.time >= _nextLootItemCacheTime)
             {
-                GameWorld gameWorld = Singleton<GameWorld>.Instance;
-
-                if ((gameWorld != null) && (gameWorld.ExfiltrationController.ExfiltrationPoints != null))
+                if ((Main.GameWorld != null) && (Main.GameWorld.ExfiltrationController.ExfiltrationPoints != null))
                 {
                     _gameExfiltrationPoints.Clear();
-                    foreach (var exfiltrationPoint in gameWorld.ExfiltrationController.ExfiltrationPoints)
+                    foreach (var exfiltrationPoint in Main.GameWorld.ExfiltrationController.ExfiltrationPoints)
                     {
                         if (!GameUtils.IsExfiltrationPointValid(exfiltrationPoint))
                             continue;

@@ -45,7 +45,7 @@ namespace EscapeFromTarkovCheat.Utils
 
         public static Vector3 WorldPointToScreenPoint(Vector3 worldPoint)
         {
-            Vector3 screenPoint = Camera.main.WorldToScreenPoint(worldPoint);
+            Vector3 screenPoint = Main.MainCamera.WorldToScreenPoint(worldPoint);
 
             screenPoint.y = Screen.height - screenPoint.y;
 

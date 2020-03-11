@@ -31,15 +31,13 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             
             if (Time.time >= _nextLootContainerCacheTime)
             {
-                GameWorld gameWorld = Singleton<GameWorld>.Instance;
-
-                if ((gameWorld != null) && (gameWorld.LootItems != null))
+                if ((Main.GameWorld != null) && (Main.GameWorld.LootItems != null))
                 {
                     _gameLootContainers.Clear();
 
                     foreach (LootableContainer lootableContainer in FindObjectsOfType<LootableContainer>())
                     {
-                        if (!GameUtils.IsLootableContainerValid(lootableContainer) || (Vector3.Distance(Camera.main.transform.position, lootableContainer.transform.position) > MaximumLootItemDistance))
+                        if (!GameUtils.IsLootableContainerValid(lootableContainer) || (Vector3.Distance(Main.MainCamera.transform.position, lootableContainer.transform.position) > MaximumLootItemDistance))
                             continue;
 
                         _gameLootContainers.Add(new GameLootContainer(lootableContainer));

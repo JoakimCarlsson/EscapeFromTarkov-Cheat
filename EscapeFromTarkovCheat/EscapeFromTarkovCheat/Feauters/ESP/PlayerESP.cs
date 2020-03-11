@@ -15,50 +15,17 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
     public class PlayerESP : MonoBehaviour
     {
-        private float nextPlayerCacheTime;
-        private List<GamePlayer> _gamePlayers = new List<GamePlayer>();
-        private float _maximumPlayerDistance = 1000f;
-        private static readonly float _cachePlayersInterval = 1f;
         private static readonly Color _playerColor = Color.green;
         private static readonly Color _botColor = new Color(1f, 0.968f, 0.349f);
         private static readonly Color _healthColor = Color.green;
         private static readonly Color _bossColor = Color.red;
-
-        public void Update()
-        {
-            if (!Settings.DrawPlayers)
-                return;
-
-            if (Time.time >= nextPlayerCacheTime)
-            {
-                GameWorld gameWorld = Singleton<GameWorld>.Instance;
-
-                if ((gameWorld != null) && (gameWorld.RegisteredPlayers != null))
-                {
-                    _gamePlayers.Clear();
-
-                    foreach (Player player in gameWorld.RegisteredPlayers)
-                    {
-                        if (!GameUtils.IsPlayerAlive(player) || player.IsYourPlayer() || (Vector3.Distance(Camera.main.transform.position, player.Transform.position) > _maximumPlayerDistance))
-                            continue;
-
-                        _gamePlayers.Add(new GamePlayer(player));
-                    }
-
-                    nextPlayerCacheTime = (Time.time + _cachePlayersInterval);
-                }
-            }
-
-            foreach (GamePlayer gamePlayer in _gamePlayers)
-                gamePlayer.RecalculateDynamics();
-        }
 
         public void OnGUI()
         {
             if (!Settings.DrawPlayers)
                 return;
 
-            foreach (GamePlayer gamePlayer in _gamePlayers)
+            foreach (GamePlayer gamePlayer in Main.GamePlayers)
             {
                 if (!gamePlayer.IsOnScreen || (gamePlayer.Distance > Settings.DrawPlayersDistance))
                     continue;
@@ -113,10 +80,10 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
                 if (true)
                 {
-                    Vector3 w2s = Camera.main.WorldToScreenPoint(gamePlayer.Player.PlayerBones.RootJoint.position);
+                    Vector3 w2s = Main.MainCamera.WorldToScreenPoint(gamePlayer.Player.PlayerBones.RootJoint.position);
                     if (w2s.z < 0.01f)
                         return;
-                    Render.DrawLine(new Vector2(Screen.width / 2, Screen.height), new Vector2(w2s.x, Screen.height - w2s.y), 1f, gamePlayer.Player.IsVisible ? Color.green : Color.red);
+                    Render.DrawLine(new Vector2(Screen.width / 2, Screen.height), new Vector2(w2s.x, Screen.height - w2s.y), 1f, gamePlayer.IsOnScreen ? Color.green : Color.red);
                 }
             }
 

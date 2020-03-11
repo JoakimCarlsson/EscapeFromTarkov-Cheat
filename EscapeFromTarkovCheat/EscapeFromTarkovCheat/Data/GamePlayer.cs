@@ -52,7 +52,7 @@ namespace EscapeFromTarkovCheat.Data
                 headScreenPosition = GameUtils.WorldPointToScreenPoint(player.PlayerBones.Head.position);
 
             IsOnScreen = GameUtils.IsScreenPointVisible(screenPosition);
-            Distance = Vector3.Distance(Camera.main.transform.position, player.Transform.position);
+            Distance = Vector3.Distance(Main.MainCamera.transform.position, player.Transform.position);
 
             if ((player.Profile != null) && (player.Profile.Info != null))
                 IsAI = (player.Profile.Info.RegistrationDate <= 0);

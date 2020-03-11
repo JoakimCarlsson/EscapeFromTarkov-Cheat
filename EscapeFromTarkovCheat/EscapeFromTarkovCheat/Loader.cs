@@ -1,4 +1,5 @@
-﻿using EFT.InventoryLogic;
+﻿using BehaviourMachine;
+using EFT.InventoryLogic;
 using EscapeFromTarkovCheat.Feauters.ESP;
 using UnityEngine;
 
@@ -6,27 +7,13 @@ namespace EscapeFromTarkovCheat
 {
     public class Loader
     {
-        public static GameObject HookObject
-        {
-            get
-            {
-                var result = GameObject.Find("Application (Main Client)");
-                if (result == null)
-                {
-                    result = new GameObject("Trainer");
-                    Object.DontDestroyOnLoad(result);
-                }
-                return result;
-            }
-        }
+        public static GameObject HookObject;
 
         public static void Load()
         {
-            HookObject.AddComponent<Menu.UI.Menu>();
-            HookObject.AddComponent<PlayerESP>();
-            HookObject.AddComponent<ItemESP>();
-            HookObject.AddComponent<LootableContainerESP>();
-            HookObject.AddComponent<ExfiltrationPointsESP>();
+            HookObject = new GameObject();
+            HookObject.AddComponent<Main>();
+            Object.DontDestroyOnLoad(HookObject);
         }
 
         public static void Unload()

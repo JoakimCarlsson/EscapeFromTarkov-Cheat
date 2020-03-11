@@ -42,7 +42,7 @@ namespace EscapeFromTarkovCheat.Data
 
             screenPosition = GameUtils.WorldPointToScreenPoint(ExfiltrationPoint.transform.position);
             IsOnScreen = GameUtils.IsScreenPointVisible(screenPosition);
-            Distance = Vector3.Distance(Camera.main.transform.position, ExfiltrationPoint.transform.position);
+            Distance = Vector3.Distance(Main.MainCamera.transform.position, ExfiltrationPoint.transform.position);
         }
 
         private string ExtractionNameToSimpleName(string extractionName)

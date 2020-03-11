@@ -39,7 +39,7 @@ namespace EscapeFromTarkovCheat.Data
 
             screenPosition = GameUtils.WorldPointToScreenPoint(LootableContainer.transform.position);
             IsOnScreen = GameUtils.IsScreenPointVisible(screenPosition);
-            Distance = Vector3.Distance(Camera.main.transform.position, LootableContainer.transform.position);
+            Distance = Vector3.Distance(Main.MainCamera.transform.position, LootableContainer.transform.position);
         }
     }
 }

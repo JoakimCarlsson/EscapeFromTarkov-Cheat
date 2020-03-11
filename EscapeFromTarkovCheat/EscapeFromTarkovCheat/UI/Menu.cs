@@ -34,9 +34,6 @@ namespace Menu.UI
 
         private void OnGUI()
         {
-            GUI.Label(new Rect(20, 20, 200, 60), "Carlsson");
-            GUI.Label(new Rect(20, 40, 200, 60), "Escape From Tarkov Verison 0.3");
-
             if (!_visible)
                 return;
 
