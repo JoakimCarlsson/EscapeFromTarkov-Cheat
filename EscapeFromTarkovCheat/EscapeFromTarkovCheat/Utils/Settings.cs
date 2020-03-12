@@ -29,7 +29,8 @@ namespace EscapeFromTarkovCheat.Utils
         internal static bool Aimbot = true;
         internal static KeyCode AimbotKey = KeyCode.LeftControl;
         internal static float AimbotFOV = 10f;
-        internal static float AimSmooth = 50f;
+        internal static float AimbotSmooth = 50f;
         internal static bool NoRecoil = true;
+        internal static bool AimbotDrawFOV = true;
     }
 }

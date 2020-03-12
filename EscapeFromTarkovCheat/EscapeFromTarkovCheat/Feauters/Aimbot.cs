@@ -60,6 +60,14 @@ namespace EscapeFromTarkovCheat.Feauters
 
         }
 
+        public void OnGUI()
+        {
+            if (Settings.Aimbot)
+            {
+
+            }
+        }
+
         private void NoRecoil()
         {
             if (Main.LocalPlayer == null)
@@ -75,6 +83,7 @@ namespace EscapeFromTarkovCheat.Feauters
             Vector3 normalized = (position1 - position2).normalized;
             return Mathf.Acos(Mathf.Clamp(Vector3.Dot(forward, normalized), -1f, 1f)) * 57.29578f;
         }
+
         public static void AimAtPos(Vector3 position)
         {
             Vector3 b = Main.LocalPlayer.Fireport.position - Main.LocalPlayer.Fireport.up * 1f;
