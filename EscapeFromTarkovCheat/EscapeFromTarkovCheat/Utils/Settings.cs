@@ -32,5 +32,7 @@ namespace EscapeFromTarkovCheat.Utils
         internal static float AimbotSmooth = 50f;
         internal static bool NoRecoil = true;
         internal static bool AimbotDrawFOV = true;
+
+        internal static KeyCode UnlockDoors = KeyCode.Keypad4;
     }
 }

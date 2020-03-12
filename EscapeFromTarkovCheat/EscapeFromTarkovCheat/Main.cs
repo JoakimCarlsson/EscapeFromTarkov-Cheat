@@ -69,6 +69,17 @@ namespace EscapeFromTarkovCheat
                     gamePlayer.RecalculateDynamics();
             }
 
+
+            if (Input.GetKeyDown(Settings.UnlockDoors))
+            {
+                foreach (var door in FindObjectsOfType<Door>())
+                {
+                    if (door.DoorState == EDoorState.Open || Vector3.Distance(door.transform.position, LocalPlayer.Position) > 20f)
+                        continue;
+
+                    door.DoorState = EDoorState.Shut;
+                }
+            }
         }
     }
 }
