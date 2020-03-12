@@ -76,20 +76,6 @@ namespace EscapeFromTarkovCheat.Utils
             return skeleton.Bones.ElementAt(id).Value.position;
         }
 
-        public static bool IsVisible(Vector3 toCheck)
-        {
-            RaycastHit hit;
-            if (Physics.Linecast(Camera.main.transform.position, toCheck, out hit))
-            {
-                Console.WriteLine(hit.transform.name);
-                if (hit.transform.name.Contains("Human") || hit.transform.name.Contains("Bot"))
-                    return true;
-
-                return false;
-            }
-
-            return false;
-        }
     }
 
 }

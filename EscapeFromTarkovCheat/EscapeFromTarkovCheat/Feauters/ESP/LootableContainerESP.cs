@@ -14,7 +14,6 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
     public class LootableContainerESP : MonoBehaviour
     {
         private static readonly float CacheLootItemsInterval = 100;
-        private static readonly float MaximumLootItemDistance = 1000f;
         private float _nextLootContainerCacheTime;
         private List<GameLootContainer> _gameLootContainers;
         private static readonly Color LootableContainerColor = new Color(1f, 0.2f, 0.09f);
@@ -37,7 +36,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
                     foreach (LootableContainer lootableContainer in FindObjectsOfType<LootableContainer>())
                     {
-                        if (!GameUtils.IsLootableContainerValid(lootableContainer) || (Vector3.Distance(Main.MainCamera.transform.position, lootableContainer.transform.position) > MaximumLootItemDistance))
+                        if (!GameUtils.IsLootableContainerValid(lootableContainer) || (Vector3.Distance(Main.MainCamera.transform.position, lootableContainer.transform.position) > Settings.DrawLootableContainersDistance))
                             continue;
 
                         _gameLootContainers.Add(new GameLootContainer(lootableContainer));

@@ -19,8 +19,7 @@ namespace EscapeFromTarkovCheat
         public static Camera MainCamera;
 
         private float _nextPlayerCacheTime;
-        private float _maximumPlayerDistance = 1000f;
-        private static readonly float _cachePlayersInterval = 1f;
+        private static readonly float _cachePlayersInterval = 4f;
 
         public void Awake()
         {
@@ -37,35 +36,39 @@ namespace EscapeFromTarkovCheat
 
         public void Update()
         {
-            if (Time.time >= _nextPlayerCacheTime)
+            if (Settings.DrawPlayers)
             {
-                GameWorld = Singleton<GameWorld>.Instance;
-                MainCamera = Camera.main;
-
-                if ((GameWorld != null) && (GameWorld.RegisteredPlayers != null))
+                if (Time.time >= _nextPlayerCacheTime)
                 {
-                    GamePlayers.Clear();
+                    GameWorld = Singleton<GameWorld>.Instance;
+                    MainCamera = Camera.main;
 
-                    foreach (Player player in GameWorld.RegisteredPlayers)
+                    if ((GameWorld != null) && (GameWorld.RegisteredPlayers != null))
                     {
-                        if (player.IsYourPlayer())
+                        GamePlayers.Clear();
+
+                        foreach (Player player in GameWorld.RegisteredPlayers)
                         {
-                            LocalPlayer = player;
-                            continue;
+                            if (player.IsYourPlayer())
+                            {
+                                LocalPlayer = player;
+                                continue;
+                            }
+
+                            if (!GameUtils.IsPlayerAlive(player) || (Vector3.Distance(MainCamera.transform.position, player.Transform.position) > Settings.DrawPlayersDistance))
+                                continue;
+
+                            GamePlayers.Add(new GamePlayer(player));
                         }
 
-                        if (!GameUtils.IsPlayerAlive(player) || (Vector3.Distance(MainCamera.transform.position, player.Transform.position) > _maximumPlayerDistance))
-                            continue;
-
-                        GamePlayers.Add(new GamePlayer(player));
+                        _nextPlayerCacheTime = (Time.time + _cachePlayersInterval);
                     }
-
-                    _nextPlayerCacheTime = (Time.time + _cachePlayersInterval);
                 }
+
+                foreach (GamePlayer gamePlayer in GamePlayers)
+                    gamePlayer.RecalculateDynamics();
             }
 
-            foreach (GamePlayer gamePlayer in GamePlayers)
-                gamePlayer.RecalculateDynamics();
         }
     }
 }

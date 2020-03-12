@@ -14,8 +14,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 {
     public class ItemESP : MonoBehaviour
     {
-        private static readonly float CacheLootItemsInterval = 1f;
-        private static readonly float MaximumLootItemDistance = 1000f;
+        private static readonly float CacheLootItemsInterval = 4f;
         private float _nextLootItemCacheTime;
 
         //private static readonly Color SpecialColor = new Color(1f, 0.2f, 0.09f);
@@ -41,7 +40,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                     {
                         LootItem lootItem = Main.GameWorld.LootItems.GetByIndex(i);
 
-                        if (!GameUtils.IsLootItemValid(lootItem) || (Vector3.Distance(Main.MainCamera.transform.position, lootItem.transform.position) > MaximumLootItemDistance))
+                        if (!GameUtils.IsLootItemValid(lootItem) || (Vector3.Distance(Main.MainCamera.transform.position, lootItem.transform.position) > Settings.DrawLootItemsDistance))
                             continue;
 
                         _gameLootItems.Add(new GameLootItem(lootItem));

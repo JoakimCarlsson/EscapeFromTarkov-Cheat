@@ -10,6 +10,8 @@ namespace EscapeFromTarkovCheat.Utils
 {
     public static class Render
     {
+        public static Material DrawMaterial = new Material(Shader.Find("Hidden/Internal-Colored"));
+
         public static GUIStyle StringStyle { get; set; } = new GUIStyle(GUI.skin.label);
         private class RingArray
         {
@@ -126,5 +128,18 @@ namespace EscapeFromTarkovCheat.Utils
             DrawLine(center + arr.Positions[0] * radius, center + arr.Positions[arr.Positions.Length - 1] * radius, thickness, color);
         }
 
+        public static void DrawSnapline(Vector3 worldpos, Color color)
+        {
+            Vector3 pos = Main.MainCamera.WorldToScreenPoint(worldpos);
+            pos.y = Screen.height - pos.y;
+            GL.PushMatrix();
+            GL.Begin(1);
+            DrawMaterial.SetPass(0);
+            GL.Color(color);
+            GL.Vertex3(Screen.width / 2, Screen.height, 0f);
+            GL.Vertex3(pos.x, pos.y, 0f);
+            GL.End();
+            GL.PopMatrix();
+        }
     }
 }
