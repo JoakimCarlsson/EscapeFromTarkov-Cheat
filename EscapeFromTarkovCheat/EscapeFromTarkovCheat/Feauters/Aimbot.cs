@@ -9,7 +9,6 @@ namespace EscapeFromTarkovCheat.Feauters
     {
         public void Update()
         {
-
             if ((Main.GameWorld != null))
             {
                 if (Settings.NoRecoil)
@@ -17,9 +16,7 @@ namespace EscapeFromTarkovCheat.Feauters
 
                 if (Settings.Aimbot)
                     Aim();
-
             }
-
         }
 
         private void Aim()
@@ -40,7 +37,7 @@ namespace EscapeFromTarkovCheat.Feauters
                     if (distance > 200f)
                         continue;
 
-                    if (destination != Vector3.zero && CaulculateInFov(destination) <= Settings.AimbotFOV && GameUtils.IsVisible(destination))
+                    if (destination != Vector3.zero && CaulculateInFov(destination) <= Settings.AimbotFOV /*&& GameUtils.IsVisible(destination)*/)
                     {
 
                         if (distanceOfTarget > distance)
@@ -78,17 +75,16 @@ namespace EscapeFromTarkovCheat.Feauters
             Vector3 normalized = (position1 - position2).normalized;
             return Mathf.Acos(Mathf.Clamp(Vector3.Dot(forward, normalized), -1f, 1f)) * 57.29578f;
         }
-        public static void AimAtPos(Vector3 pos)
+        public static void AimAtPos(Vector3 position)
         {
             Vector3 b = Main.LocalPlayer.Fireport.position - Main.LocalPlayer.Fireport.up * 1f;
-            Vector3 eulerAngles = Quaternion.LookRotation((pos - b).normalized).eulerAngles;
+            Vector3 eulerAngles = Quaternion.LookRotation((position - b).normalized).eulerAngles;
 
             if (eulerAngles.x > 180f)
                 eulerAngles.x -= 360f;
 
             Main.LocalPlayer.MovementContext.Rotation = new Vector2(eulerAngles.y, eulerAngles.x);
         }
-
 
     }
 }
