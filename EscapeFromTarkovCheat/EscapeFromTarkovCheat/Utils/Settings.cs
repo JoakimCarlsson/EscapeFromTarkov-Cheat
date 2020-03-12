@@ -19,6 +19,7 @@ namespace EscapeFromTarkovCheat.Utils
         internal static bool DrawPlayerName = true;
         internal static bool DrawPlayerHealth = false;
         internal static bool DrawPlayerBox = true;
+        internal static bool DrawPlayerLine = true;
 
         internal static float DrawLootItemsDistance = 300f;
         internal static float DrawLootableContainersDistance = 10f;
@@ -29,6 +30,5 @@ namespace EscapeFromTarkovCheat.Utils
         internal static KeyCode AimbotKey = KeyCode.LeftControl;
         internal static float AimbotFOV = 10f;
         internal static bool NoRecoil = true;
-
     }
 }

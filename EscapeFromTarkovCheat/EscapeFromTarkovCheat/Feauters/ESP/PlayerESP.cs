@@ -16,7 +16,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
     public class PlayerESP : MonoBehaviour
     {
         private static readonly Color _playerColor = Color.green;
-        private static readonly Color _botColor = new Color(1f, 0.968f, 0.349f);
+        private static readonly Color _botColor = Color.yellow;
         private static readonly Color _healthColor = Color.green;
         private static readonly Color _bossColor = Color.red;
 
@@ -27,7 +27,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
 
             foreach (GamePlayer gamePlayer in Main.GamePlayers)
             {
-                if (!gamePlayer.IsOnScreen || (gamePlayer.Distance > Settings.DrawPlayersDistance))
+                if (!gamePlayer.IsOnScreen || gamePlayer.Distance > Settings.DrawPlayersDistance || gamePlayer.Player == Main.LocalPlayer)
                     continue;
 
                 Color playerColor = ((gamePlayer.IsAI) ? _botColor : _playerColor);
@@ -78,13 +78,13 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
                     Render.DrawString(new Vector2(gamePlayer.ScreenPosition.x - (playerTextVector.x / 2f), (gamePlayer.HeadScreenPosition.y - 20f)), playerText, playerColor);
                 }
 
-                if (true)
+                if (Settings.DrawPlayerLine)
                 {
                     Vector3 w2s = Main.MainCamera.WorldToScreenPoint(gamePlayer.Player.PlayerBones.RootJoint.position);
-
+                    Vector3 destination = GameUtils.GetBonePosByID(gamePlayer.Player, 133);
                     if (w2s.z < 0.01f)
                         return;
-                    Render.DrawLine(new Vector2(Screen.width / 2, Screen.height), new Vector2(w2s.x, Screen.height - w2s.y), 1f, gamePlayer.Player.IsVisible ? Color.green : Color.red);
+                    Render.DrawLine(new Vector2(Screen.width / 2, Screen.height), new Vector2(w2s.x, Screen.height - w2s.y), 1.5f, GameUtils.IsVisible(destination) ? Color.green : Color.red);
                 }
             }
         }

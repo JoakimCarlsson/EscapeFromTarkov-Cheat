@@ -1,4 +1,6 @@
-﻿using EscapeFromTarkovCheat.Utils;
+﻿using System;
+using EFT;
+using EscapeFromTarkovCheat.Utils;
 using UnityEngine;
 
 namespace EscapeFromTarkovCheat.Feauters
@@ -15,7 +17,9 @@ namespace EscapeFromTarkovCheat.Feauters
 
                 if (Settings.Aimbot)
                     Aim();
+
             }
+
         }
 
         private void Aim()
@@ -36,8 +40,9 @@ namespace EscapeFromTarkovCheat.Feauters
                     if (distance > 200f)
                         continue;
 
-                    if (destination != Vector3.zero && CaulculateInFov(destination) <= Settings.AimbotFOV)
+                    if (destination != Vector3.zero && CaulculateInFov(destination) <= Settings.AimbotFOV && GameUtils.IsVisible(destination))
                     {
+
                         if (distanceOfTarget > distance)
                         {
                             distanceOfTarget = distance;
@@ -83,5 +88,7 @@ namespace EscapeFromTarkovCheat.Feauters
 
             Main.LocalPlayer.MovementContext.Rotation = new Vector2(eulerAngles.y, eulerAngles.x);
         }
+
+
     }
 }

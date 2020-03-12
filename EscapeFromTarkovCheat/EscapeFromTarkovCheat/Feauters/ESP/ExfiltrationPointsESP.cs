@@ -49,7 +49,7 @@ namespace EscapeFromTarkovCheat.Feauters.ESP
             {
                 foreach (var exfiltrationPoint in _gameExfiltrationPoints)
                 {
-                    if (!GameUtils.IsExfiltrationPointValid(exfiltrationPoint.ExfiltrationPoint) || !exfiltrationPoint.IsOnScreen || exfiltrationPoint.Distance > Settings.DrawLootItemsDistance)
+                    if (!GameUtils.IsExfiltrationPointValid(exfiltrationPoint.ExfiltrationPoint) || !exfiltrationPoint.IsOnScreen)
                         continue;
 
                     string exfiltrationPointText = $"{exfiltrationPoint.ExfiltrationPoint.Settings.Name} [{exfiltrationPoint.FormattedDistance}]";
